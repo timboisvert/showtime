@@ -8,12 +8,11 @@ Rails.application.routes.draw do
   resources :audition_requests
   resources :call_to_auditions
   root "home#index"
-  
+
   get "home/index"
-  
+
   resources :shows
   resources :people
   resources :productions
   resources :production_companies
-  
 end
