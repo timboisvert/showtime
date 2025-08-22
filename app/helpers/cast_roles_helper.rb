@@ -1,0 +1,2 @@
+module CastRolesHelper
+end
