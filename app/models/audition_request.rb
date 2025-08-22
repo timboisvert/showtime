@@ -3,6 +3,6 @@ class AuditionRequest < ApplicationRecord
   belongs_to :person
 
   def display_name 
-    person.display_name
+    person.stage_name
   end
 end
