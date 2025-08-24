@@ -56,6 +56,6 @@ class CallToAuditionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def call_to_audition_params
-      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :use_person_object, :hex_code ])
+      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :header_text, :use_person_object, :hex_code ])
     end
 end
