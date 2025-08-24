@@ -1,14 +1,14 @@
 <div id="<%= dom_id call_to_audition %>" class="w-full sm:w-auto my-5 space-y-5">
   <div>
-    <strong class="block font-medium mb-1">Production:</strong>
-    <%= call_to_audition.production.name %>
+    <span class="text-xl font-bold"><%= link_to call_to_audition.production.name, call_to_audition %></span>
+    <span class="">(<%= call_to_audition.hex_code %>)</span>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Opens at:</strong>
-    <%= call_to_audition.opens_at %>
+    <span>Opens: </span>
+    <span><%= call_to_audition.opens_at %></span>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Closes at:</strong>
-    <%= call_to_audition.closes_at %>
+    <span>Closes:</span>
+    <span><%= call_to_audition.closes_at %></span>
   </div>
 </div>

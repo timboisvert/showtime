@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_22_212157) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_23_230631) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,6 +72,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_212157) do
     t.datetime "closes_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "use_person_object", default: true
+    t.string "hex_code"
     t.index ["production_id"], name: "index_call_to_auditions_on_production_id"
   end
 
@@ -122,6 +124,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_212157) do
     t.datetime "updated_at", null: false
     t.integer "production_company_id", null: false
     t.index ["production_company_id"], name: "index_productions_on_production_company_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "key"
+    t.string "text"
+    t.string "type"
+    t.string "questionable_type", null: false
+    t.integer "questionable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionable_type", "questionable_id"], name: "index_questions_on_questionable"
   end
 
   create_table "show_cast_assignments", force: :cascade do |t|

@@ -17,11 +17,19 @@
   </div>
   <div>
     <strong class="block font-medium mb-1">Resume:</strong>
-    <%= link_to "Click to download", person.resume %>
+    <% if person.resume.attached? %>
+      <%= link_to "Click to download", url_for(person.resume) %>
+    <% else %>
+      No resume uploaded
+    <% end %>
   </div>
   <div>
     <strong class="block font-medium mb-1">Headshot:</strong>
-    <%= image_tag url_for(person.headshot) %>
+    <% if person.headshot.attached? %>
+      <%= image_tag url_for(person.headshot) %>
+    <% else %>
+      No headshot uploaded
+    <% end %>
   </div>
   
 </div>

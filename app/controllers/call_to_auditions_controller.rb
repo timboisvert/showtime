@@ -23,6 +23,9 @@ class CallToAuditionsController < ApplicationController
   def create
     @call_to_audition = CallToAudition.new(call_to_audition_params)
 
+    # Create a random hex code for the audition link
+    @call_to_audition.code = SecureRandom.hex(5).upcase
+
     if @call_to_audition.save
       redirect_to @call_to_audition, notice: "Call to audition was successfully created."
     else
@@ -53,6 +56,6 @@ class CallToAuditionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def call_to_audition_params
-      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at ])
+      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :use_person_object, :hex_code ])
     end
 end
