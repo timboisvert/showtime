@@ -1,6 +1,6 @@
 class AuditionRequestsController < ApplicationController
   before_action :set_audition_request, only: %i[ show edit update destroy ]
- 
+
   def index
     @audition_requests = AuditionRequest.all
   end
