@@ -1,33 +1,17 @@
 class RespondToCallToAuditionController < ApplicationController
 
+  before_action :get_call_to_audition
+
   # Use the public facing layout
   layout "public_facing"
 
   def new
-    @call_to_audition = CallToAudition.find_by(hex_code: params[:hex_code].upcase)
-
-    if @call_to_audition.nil?
-      redirect_to root_path, alert: "Invalid call to audition"
-      return  
-    end
-
-    @production = @call_to_audition.production
     @questions = @call_to_audition.questions
     @audition_request = AuditionRequest.new
     @person = @audition_request.build_person
   end
 
   def create
-
-    # Get the call to audition from the hex code and handle invalid codes
-    @call_to_audition = CallToAudition.find_by(hex_code: params[:hex_code].upcase)
-    if @call_to_audition.nil?
-      redirect_to root_path, alert: "Invalid call to audition"
-      return  
-    end
-
-    @production = @call_to_audition.production
-    
     # Strong parameters for the person
     person_params = params.require(:audition_request).permit(:person => [:stage_name, :email, :pronouns, :socials, :resume, :headshot])
 
@@ -45,6 +29,21 @@ class RespondToCallToAuditionController < ApplicationController
       render :new, status: :unprocessable_entity
     end
 
+  end
+
+  def success
+
+  end
+
+  def get_call_to_audition
+    @call_to_audition = CallToAudition.find_by(hex_code: params[:hex_code].upcase)
+
+    if @call_to_audition.nil?
+      redirect_to root_path, alert: "Invalid call to audition"
+      return  
+    end
+
+    @production = @call_to_audition.production
   end
 
 end
