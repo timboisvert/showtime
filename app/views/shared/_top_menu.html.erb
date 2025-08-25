@@ -1,6 +1,17 @@
-<div class="flex items-center">
-  <h1 class="font-bold text-4xl mb-3"><%= header_text %></h1>
-  <% links.each do |link| %>
-    <%= link_to link[:name], link[:path], class: "text-blue-500 hover:text-blue-800 font-medium text-md me-2 ml-3" %>
+<div class="flex items-top justify-between mb-5 border-b-1 border-gray-200 pb-3">
+
+  <div>
+    <% breadcrumbs.each do |name, path| %>
+      <%= link_to name, path, class: "font-bold text-2xl mb-1 mr-2 text-blue-600 hover:text-blue-800 underline" %>
+      <span class="text-2xl font-medium text-gray-500"> / &nbsp;</span>
+    <% end %>
+    <span class="font-bold text-2xl text-mb-1 mr-2"><%= text %></span>
+  </div>
+  <% if links.count > 0 %>
+    <div>
+      <% links.each do |link| %>
+        <%= render partial: "shared/link_button", locals: {text: link[:text], path: link[:path]} %>
+      <% end %>
+    </div>
   <% end %>
 </div>
