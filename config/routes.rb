@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     root "home#index"
     get "home/index"
 
+    resources :production_companies
+
     resources :people
 
     resources :productions do
@@ -11,7 +13,6 @@ Rails.application.routes.draw do
       resources :call_to_auditions
     end
 
-    resources :production_companies
     resources :questions
     resources :auditions
     resources :audition_sessions

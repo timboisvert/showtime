@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_24_164420) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_180308) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -75,6 +75,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_164420) do
     t.boolean "use_person_object", default: true
     t.string "hex_code"
     t.text "header_text"
+    t.text "success_text"
     t.index ["production_id"], name: "index_call_to_auditions_on_production_id"
   end
 

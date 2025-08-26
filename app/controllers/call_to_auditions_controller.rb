@@ -24,7 +24,7 @@ class CallToAuditionsController < ApplicationController
     @call_to_audition.hex_code = SecureRandom.hex(5).upcase
 
     if @call_to_audition.save
-      redirect_to [@production, @call_to_audition], notice: "Call to Audition was successfully created."
+      redirect_to @production, notice: "Call to Audition was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -56,6 +56,6 @@ class CallToAuditionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def call_to_audition_params
-      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :header_text, :use_person_object, :hex_code ])
+      params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :header_text, :success_text, :use_person_object, :hex_code ])
     end
 end
