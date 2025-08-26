@@ -1,12 +1,8 @@
 class CallToAuditionsController < ApplicationController
   before_action :set_call_to_audition, only: %i[ show edit update destroy ]
+  before_action :set_production
 
-  # GET /call_to_auditions
-  def index
-    @call_to_auditions = CallToAudition.all
-  end
-
-  # GET /call_to_auditions/1
+   # GET /call_to_auditions/1
   def show
   end
 
@@ -22,12 +18,13 @@ class CallToAuditionsController < ApplicationController
   # POST /call_to_auditions
   def create
     @call_to_audition = CallToAudition.new(call_to_audition_params)
+    @call_to_audition.production = @production
 
     # Create a random hex code for the audition link
-    @call_to_audition.code = SecureRandom.hex(5).upcase
+    @call_to_audition.hex_code = SecureRandom.hex(5).upcase
 
     if @call_to_audition.save
-      redirect_to @call_to_audition, notice: "Call to audition was successfully created."
+      redirect_to [@production, @call_to_audition], notice: "Call to Audition was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +33,7 @@ class CallToAuditionsController < ApplicationController
   # PATCH/PUT /call_to_auditions/1
   def update
     if @call_to_audition.update(call_to_audition_params)
-      redirect_to @call_to_audition, notice: "Call to audition was successfully updated.", status: :see_other
+      redirect_to [@production, @call_to_audition], notice: "Call to Audition was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -45,13 +42,16 @@ class CallToAuditionsController < ApplicationController
   # DELETE /call_to_auditions/1
   def destroy
     @call_to_audition.destroy!
-    redirect_to call_to_auditions_path, notice: "Call to audition was successfully destroyed.", status: :see_other
+    redirect_to @production, notice: "Call to Audition was successfully deleted.", status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_call_to_audition
       @call_to_audition = CallToAudition.find(params.expect(:id))
+    end
+
+    def set_production
+      @production = Production.find(params.expect(:production_id))
     end
 
     # Only allow a list of trusted parameters through.

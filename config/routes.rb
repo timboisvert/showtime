@@ -4,11 +4,14 @@ Rails.application.routes.draw do
     root "home#index"
     get "home/index"
 
-    resources :shows
     resources :people
-    resources :productions
+
+    resources :productions do
+      resources :shows
+      resources :call_to_auditions
+    end
+
     resources :production_companies
-    resources :call_to_auditions
     resources :questions
     resources :auditions
     resources :audition_sessions

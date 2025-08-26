@@ -1,10 +1,6 @@
 class ShowsController < ApplicationController
   before_action :set_show, only: %i[ show edit update destroy ]
-
-  # GET /shows
-  def index
-    @shows = Show.all
-  end
+  before_action :set_production
 
   # GET /shows/1
   def show
@@ -22,9 +18,10 @@ class ShowsController < ApplicationController
   # POST /shows
   def create
     @show = Show.new(show_params)
+    @show.production = @production
 
     if @show.save
-      redirect_to @show, notice: "Show was successfully created."
+      redirect_to @production, notice: "Show was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +30,7 @@ class ShowsController < ApplicationController
   # PATCH/PUT /shows/1
   def update
     if @show.update(show_params)
-      redirect_to @show, notice: "Show was successfully updated.", status: :see_other
+      redirect_to @production, notice: "Show was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,13 +39,16 @@ class ShowsController < ApplicationController
   # DELETE /shows/1
   def destroy
     @show.destroy!
-    redirect_to shows_path, notice: "Show was successfully destroyed.", status: :see_other
+    redirect_to @production, notice: "Show was successfully deleted.", status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_show
       @show = Show.find(params.expect(:id))
+    end
+
+    def set_production
+      @production = Production.find(params.expect(:production_id))
     end
 
     # Only allow a list of trusted parameters through.
