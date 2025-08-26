@@ -12,8 +12,48 @@
     ]
   } %>
 
-  <div class="mb-5">
+  <div class="mb-10">
     <%= @production.description %>
   </div>
+
+  <div class="flex items-top justify-between ">
+    <h1 class="font-bold text-xl mb-2">Scheduled Shows</h1>
+    <%= render partial: "shared/link_button", locals: {text: "Schedule a Show", path: new_show_path} %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4 mb-10">
+    <% @production.shows.order(:date_and_time).each do |show| %>
+      <%= link_to show_path(show) do %>
+        <div class="p-4 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+          <p class="font-bold text-md"><%= show.date_and_time.strftime("%A, %B %-d, %Y") %></p>
+          <p class="font-bold text-md mt-1"><%= show.date_and_time.strftime("%l:%M %p") %></p>
+
+          <% if show.secondary_name.present? %>
+            <p class="font-bold text-2xl mb-3"><%= show.secondary_name %></p>
+          <% end %>
+
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+<div class="flex items-top justify-between ">
+    <h1 class="font-bold text-xl mb-2">Calls to Audition</h1>
+    <%= render partial: "shared/link_button", locals: {text: "Create a Call to Audition ", path: new_call_to_audition_path} %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
+    <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
+      <%= link_to call_to_audition_path(call_to_audition) do %>
+        <div class="p-4 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+          <p class="font-bold text-md">Opens: <%= call_to_audition.opens_at.strftime("%B %-d, %Y") %></p>
+          <p class="font-bold text-md">Closes: <%= call_to_audition.closes_at.strftime("%B %-d, %Y") %></p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+
+
 
 </div>
