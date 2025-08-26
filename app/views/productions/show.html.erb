@@ -19,7 +19,7 @@
   </div>
 
   <div class="flex items-top justify-between ">
-    <h1 class="font-bold text-xl mb-2">Scheduled Shows</h1>
+    <h1 class="font-bold text-2xl mb-2">Scheduled Shows</h1>
     <%= render partial: "shared/link_button", locals: {text: "Schedule a Show", path: new_production_show_path(@production)} %>
   </div>
 
@@ -40,7 +40,7 @@
   </div>
 
   <div class="w-full">
-    <h1 class="font-bold text-xl mb-2">Auditions</h1>
+    <h1 class="font-bold text-2xl mb-2">Auditions</h1>
 
     <% if !@production.call_to_auditions.any? %>
       <div class="mb-5">
@@ -53,23 +53,66 @@
   <div class="w-full">
 
     <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
-      <div class="p-4 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
 
-        <h2 class="font-bold text-xl col-span-1 mb-2">Call to Audition</h2>
+        <div class="p-4 pb-6 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
+          <h2 class="font-bold text-lg col-span-1 mb-2">Call to Audition</h2>
 
-          <div class="p-3 pb-6 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
-            <p class="mb-3">
-              You currently have an open Call to Audition that began
-              on <b><%= call_to_audition.opens_at.strftime("%B %-d, %Y") %></b> and
-              closes on <b><%= call_to_audition.closes_at.strftime("%B %-d, %Y") %></b>
-            </p>
-            <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", path: edit_production_call_to_audition_path(@production, call_to_audition)} %>
-          </div>
+          <p class="mb-3">
+            You currently have an open Call to Audition that began
+            on <b><%= call_to_audition.opens_at.strftime("%B %-d, %Y") %></b> and
+            closes on <b><%= call_to_audition.closes_at.strftime("%B %-d, %Y") %></b>.
+          </p>
 
+          <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", path: edit_production_call_to_audition_path(@production, call_to_audition)} %>
 
         </div>
+
+        <div class="p-4 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+          <h2 class="font-bold text-lg col-span-1 mb-2">Audition Sessions</h2>
+
+
+          <div class="grid grid-cols-1 gap-1">
+
+            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+              9/18/2025 6:00 PM
+              <p>7 auditionees scheduled</p>
+            </div>
+
+            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+              9/18/2025 7:00 PM
+              <p>0 auditionees scheduled</p>
+            </div>
+
+            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+              9/18/2025 8:00 PM
+              <p>1 auditionee scheduled</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="p-4 pb-6 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+          <h2 class="font-bold text-lg col-span-1 mb-2">Audition Requests</h2>
+
+          <div>
+            <p class="font-bold text-3xl">17</p>
+            <p>Unreviewed Requests</p>
+          </div>
+
+          <div>
+            <p class="font-bold text-3xl">23</p>
+            <p>Accepted</p>
+          </div>
+
+          <div>
+            <p class="font-bold text-3xl">92</p>
+            <p>Rejected</p>
+          </div>
+
+        </div>
+
       </div>
     <% end %>
   </div>
