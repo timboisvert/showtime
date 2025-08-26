@@ -2,7 +2,7 @@ class CallToAuditionsController < ApplicationController
   before_action :set_call_to_audition, only: %i[ show edit update destroy ]
   before_action :set_production
 
-   # GET /call_to_auditions/1
+  # GET /call_to_auditions/1
   def show
   end
 
@@ -33,7 +33,7 @@ class CallToAuditionsController < ApplicationController
   # PATCH/PUT /call_to_auditions/1
   def update
     if @call_to_audition.update(call_to_audition_params)
-      redirect_to [@production, @call_to_audition], notice: "Call to Audition was successfully updated.", status: :see_other
+      redirect_to [ @production, @call_to_audition ], notice: "Call to Audition was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
