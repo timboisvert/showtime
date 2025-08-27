@@ -19,35 +19,63 @@
   } %>
 
   <div class="grid grid-cols-1 gap-2 mb-4">
-    <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-      <p class="text-xs mb-1">9/18/2025 at 6:00 PM</p>
-      <p class="font-bold text-xl">7 auditionees</p>
-    </div>
-    <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-      <p class="text-xs mb-1">9/18/2025 at 7:00 PM</p>
-      <p class="font-bold text-xl">2 auditionees</p>
-    </div>
-    <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-      <p class="text-xs mb-1">9/18/2025 at 8:00 PM</p>
-      <p class="font-bold text-xl">0 auditionees</p>
-    </div>
-  </div>
-
-
-  <div id="audition_requests" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @audition_requests.any? %>
       <% @audition_requests.each do |audition_request| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render audition_request %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", audition_request, class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_audition_request_path(audition_request), class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", audition_request, method: :delete, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        <div class="flex w-full p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+
+          <div class="mr-4 grid place-items-center">
+            <% if audition_request.person.headshot.attached? %>
+              <%= image_tag url_for(audition_request.person.headshot), class: "relative inline-block h-12 w-12 !rounded-full  object-cover object-center" %>
+            <% else %>
+              <div class="relative inline-block h-12 w-12 rounded-full bg-gray-200">
+                <svg class="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </div>
+            <% end %>
           </div>
+
+          <div>
+            <h6 class="font-medium text-xl">
+              <%= audition_request.person.stage_name %>
+              <% if audition_request.person.pronouns.present? %>
+                <span class="text-sm font-normal text-gray-500">
+                  (<%= audition_request.person.pronouns %>)
+                </span>
+              <% end %>
+            </h6>
+            <p class="text-slate-500 text-sm">
+              <%= audition_request.person.email %>
+            </p>
+          </div>
+
+          <div class="ml-auto grid grid-cols-4 gap-0">
+            <%
+              [:unreviewed, :undecided, :accepted, :passed].each do |status|
+                classes = "text-md px-5 py-2.5 text-center border border-gray-200"
+
+                # Set the borders based on position in the list of statuses
+                if status == :unreviewed
+                  classes += " rounded-l-lg"
+                elsif status == :passed
+                  classes += " rounded-r-lg"
+                else
+                  classes += " border-l-0 border-r-0"
+                end
+
+                # Set the background color based on status
+                if audition_request.status == status.to_s
+                  classes += " bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-white"
+                end
+            %>
+
+              <%= link_to status.capitalize, "", class: classes %>
+            <% end %>
+          </div>
+
         </div>
       <% end %>
     <% else %>
-      <p class="text-center my-10">No audition requests found.</p>
+      <p class="text-center my-10">No Audition Requests found.</p>
     <% end %>
   </div>
-</div>
