@@ -101,28 +101,38 @@
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Requests</h2>
 
           <div class="grid grid-cols-2 gap-2 mb-4">
-            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
-              <p class="font-bold text-5xl text-center">17</p>
-              <p class="text-xs text-center">New</p>
-            </div>
 
-            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
-              <p class="font-bold text-5xl text-center">39</p>
-              <p class="text-xs text-center">Unreviewed</p>
-            </div>
+            <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :unreviewed) do %>
+              <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+                <p class="font-bold text-5xl text-center">17</p>
+                <p class="text-xs text-center">Unreviewed</p>
+              </div>
+            <% end %>
 
-            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
-              <p class="font-bold text-5xl text-center">23</p>
-              <p class="text-xs text-center">Accepted</p>
-            </div>
+            <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :undecided) do %>
+              <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+                <p class="font-bold text-5xl text-center">39</p>
+                <p class="text-xs text-center">Undecided</p>
+              </div>
+            <% end %>
 
-            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
-              <p class="font-bold text-5xl text-center">92</p>
-              <p class="text-xs text-center">Passed</p>
-            </div>
+            <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :accepted) do %>
+              <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+                <p class="font-bold text-5xl text-center">23</p>
+                <p class="text-xs text-center">Accepted</p>
+              </div>
+            <% end %>
+
+            <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :passed) do %>
+              <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+                <p class="font-bold text-5xl text-center">92</p>
+                <p class="text-xs text-center">Passed</p>
+              </div>
+            <% end %>
+
           </div>
 
-          <%= render partial: "shared/link_button", locals: {text: "View all Audition Requests", path: new_production_call_to_audition_audition_session_path(@production, call_to_audition)} %>
+          <%= render partial: "shared/link_button", locals: {text: "View all Audition Requests", path: production_call_to_audition_audition_requests_path(@production, call_to_audition)} %>
 
         </div>
 

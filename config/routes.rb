@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :shows
       resources :call_to_auditions do
         resources :audition_sessions
+        resources :audition_requests
       end
     end
 
