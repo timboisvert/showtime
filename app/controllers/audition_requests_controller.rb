@@ -3,6 +3,10 @@ class AuditionRequestsController < ApplicationController
   before_action :set_production
   before_action :set_call_to_audition
 
+  # Use the wide layout for the show page so we can maximize real estate
+  layout "wide", only: %i[ show ]
+
+
   def index
     @audition_requests = AuditionRequest.all
   end
@@ -55,7 +59,6 @@ def create
     else
       render :show, status: :unprocessable_entity
     end
-
   end
 
   private

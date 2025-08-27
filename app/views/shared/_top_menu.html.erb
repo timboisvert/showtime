@@ -2,10 +2,10 @@
 
   <div>
     <% breadcrumbs.each do |name, path| %>
-      <%= link_to name, path, class:"font-bold text-2xl mb-1 mr-2 text-pink-500 hover:text-pink-600 underline" %>
-      <span class="text-2xl font-medium text-gray-500"> / &nbsp;</span>
+      <%= link_to name, path, class:"font-bold text-xl mb-1 mr-2 text-pink-500 hover:text-pink-600 underline" %>
+      <span class="text-xl font-medium text-gray-500"> / &nbsp;</span>
     <% end %>
-    <span class="font-bold text-2xl text-mb-1 mr-2"><%= text %></span>
+    <span class="font-bold text-xl text-mb-1 mr-2"><%= text %></span>
   </div>
   <% if links.count > 0 %>
     <div>

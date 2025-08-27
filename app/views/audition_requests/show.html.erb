@@ -14,7 +14,23 @@
     links: []
   } %>
 
-  <%= render @audition_request %>
+
+  <div id="<%= dom_id @audition_request %>" class="w-full sm:w-auto my-5 space-y-5">
+    <div class="flex flex-col sm:flex-row w-full gap-6">
+      <div class="w-full sm:w-2/3">
+        <!-- Add left side content here -->
+      </div>
+      <div class="w-full sm:w-1/3 flex flex-col p-6">
+        <% if @audition_request.person.headshot.attached? %>
+          <%= image_tag @audition_request.person.headshot.variant(resize_to_limit: [300, 400]), class: "w-32 h-32 object-cover" %>
+        <% end %>
+        <div class="text-2xl font-bold mb-2"><%= @audition_request.person.stage_name %></div>
+        <div class="text-lg text-gray-600 mb-1"><%= @audition_request.person.pronouns %></div>
+        <div class="text-md text-gray-500"><%= mail_to @audition_request.person.email %></div>
+      </div>
+    </div>
+  </div>
+
 
   <%= link_to "Edit", edit_audition_request_path(@audition_request), class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
   <%= button_to "Delete", @audition_request, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-lg px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
