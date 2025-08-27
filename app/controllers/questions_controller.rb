@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :set_production
+  before_action :set_call_to_audition
 
   # GET /questions
   def index
@@ -46,12 +48,18 @@ class QuestionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_question
       @question = Question.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_production
+      @production = Production.find(params.expect(:production_id))
+    end
+
+    def set_call_to_audition
+      @call_to_audition = CallToAudition.find(params.expect(:call_to_audition_id))
+    end
+
     def question_params
       params.expect(question: [ :key, :text, :type, :questionable_id, :questionable_type ])
     end

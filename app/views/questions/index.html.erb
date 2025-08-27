@@ -1,15 +1,15 @@
-<% content_for :title, "Questions" %>
-
+<% content_for :title, "Call to Audition" %>
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Questions</h1>
-    <%= link_to "New question", new_question_path, class: "rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
-
+  <%= render partial: "shared/notice", locals: { notice: notice } %>
+  <%= render partial: "shared/top_menu", locals: {
+    breadcrumbs: [
+      ["Productions", productions_path],
+      [@production.name, production_path(@production)],
+      ["Call to Audition", edit_production_call_to_audition_path(@production, @call_to_audition)]
+    ],
+    text: "Custom Questions",
+    links: []
+  } %>
   <div id="questions" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @questions.any? %>
       <% @questions.each do |question| %>

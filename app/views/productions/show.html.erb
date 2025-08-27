@@ -1,9 +1,6 @@
 <% content_for :title, @production.name %>
-
 <div class="w-full mb-10">
-
   <%= render partial: "shared/notice", locals: { notice: notice } %>
-
   <%= render partial: "shared/top_menu", locals: {
     breadcrumbs: [
       ["Productions", productions_path]
@@ -13,41 +10,32 @@
       { text: "Edit", path: edit_production_path(@production) }
     ]
   } %>
-
   <div class="mb-10">
     <%= @production.description %>
   </div>
-
   <div class="flex items-top justify-between ">
     <h1 class="font-bold text-2xl mb-2">Scheduled Shows</h1>
   </div>
-
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4 mb-10">
     <% @production.shows.order(:date_and_time).each do |show| %>
       <%= link_to production_show_path(@production, show) do %>
         <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <p class="font-bold text-md"><%= show.date_and_time.strftime("%A, %B %-d, %Y") %></p>
           <p class="font-bold text-md mt-1"><%= show.date_and_time.strftime("%l:%M %p") %></p>
-
           <% if show.secondary_name.present? %>
             <p class="font-bold text-2xl"><%= show.secondary_name %></p>
           <% end %>
-
         </div>
       <% end %>
     <% end %>
-
     <%= link_to new_production_show_path(@production) do %>
       <div class="flex min-h-24 bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg items-center">
         <p class="text-center text-sm text-white w-full">+ Schedule a Show</p>
       </div>
     <% end %>
-
   </div>
-
   <div class="w-full">
     <h1 class="font-bold text-2xl mb-2">Auditions</h1>
-
     <% if !@production.call_to_auditions.any? %>
       <div class="mb-5">
         You don&apos;t currently have any open Calls to Audition for this production.
@@ -55,29 +43,27 @@
       <%= render partial: "shared/link_button", locals: {text: "Open a Call to Audition", path: new_production_call_to_audition_path(@production)} %>
     <% end %>
   </div>
-
   <div class="w-full">
-
     <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
-
         <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-
           <h2 class="font-bold text-lg col-span-1 mb-2">Call to Audition</h2>
-
-          <p class="mb-4">
+          <p class="mb-2">
             You currently have an open Call to Audition that began
             on <b><%= call_to_audition.opens_at.strftime("%B %-d, %Y") %></b> and
             closes on <b><%= call_to_audition.closes_at.strftime("%B %-d, %Y") %></b>.
           </p>
-
-          <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", path: edit_production_call_to_audition_path(@production, call_to_audition)} %>
-
+          <div>
+            <div class="pb-2">
+              <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", path: edit_production_call_to_audition_path(@production, call_to_audition)} %>
+            </div>
+            <div class="">
+              <%= render partial: "shared/link_button", locals: {text: "Preview Form", path: respond_to_call_to_audition_path(call_to_audition.hex_code)} %>
+            </div>
+          </div>
         </div>
-
         <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Sessions</h2>
-
           <div class="grid grid-cols-1 gap-2 mb-4">
             <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
               <p class="text-xs mb-1">9/18/2025 at 6:00 PM</p>
@@ -92,55 +78,39 @@
               <p class="font-bold text-xl">0 auditionees</p>
             </div>
           </div>
-
           <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_call_to_audition_audition_session_path(@production, call_to_audition)} %>
-
         </div>
-
         <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Requests</h2>
-
           <div class="grid grid-cols-2 gap-2 mb-4">
-
             <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :unreviewed) do %>
               <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
                 <p class="font-bold text-5xl text-center">17</p>
                 <p class="text-xs text-center">Unreviewed</p>
               </div>
             <% end %>
-
             <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :undecided) do %>
               <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
                 <p class="font-bold text-5xl text-center">39</p>
                 <p class="text-xs text-center">Undecided</p>
               </div>
             <% end %>
-
             <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :accepted) do %>
               <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
                 <p class="font-bold text-5xl text-center">23</p>
                 <p class="text-xs text-center">Accepted</p>
               </div>
             <% end %>
-
             <%= link_to production_call_to_audition_audition_requests_path(@production, call_to_audition, status: :passed) do %>
               <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
                 <p class="font-bold text-5xl text-center">92</p>
                 <p class="text-xs text-center">Passed</p>
               </div>
             <% end %>
-
           </div>
-
           <%= render partial: "shared/link_button", locals: {text: "View all Audition Requests", path: production_call_to_audition_audition_requests_path(@production, call_to_audition)} %>
-
         </div>
-
       </div>
     <% end %>
   </div>
-
-
-
-
 </div>

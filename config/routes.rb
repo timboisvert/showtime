@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :productions do
       resources :shows
       resources :call_to_auditions do
+        resources :questions
         resources :audition_sessions
         resources :audition_requests
 

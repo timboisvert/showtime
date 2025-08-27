@@ -1,6 +1,7 @@
 class CallToAudition < ApplicationRecord
   belongs_to :production
   has_many :audition_requests, dependent: :destroy
+  has_many :audition_sessions, dependent: :destroy
   has_many :questions, as: :questionable, dependent: :destroy
 
   validates :opens_at, presence: true
