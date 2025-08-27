@@ -1,10 +1,48 @@
-<% content_for :title, "Editing question" %>
+<% content_for :title, "Call to Audition" %>
+<div class="w-full">
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing question</h1>
+  <%= render partial: "shared/notice", locals: { notice: notice } %>
 
-  <%= render "form", question: @question %>
+  <%= render partial: "shared/top_menu", locals: {
+    breadcrumbs: [
+      ["Productions", productions_path],
+      [@production.name, production_path(@production)],
+      ["Call to Audition", edit_production_call_to_audition_path(@production, @call_to_audition)],
+      ["Custom Questions", production_call_to_audition_questions_path(@production, @call_to_audition)]
+    ],
+    text: "Edit Question",
+    links: []
+  } %>
 
-  <%= link_to "Show this question", @question, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to questions", questions_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= form_with(model: [@production, @call_to_audition, @question], class: "contents") do |form| %>
+    <% if @question.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+        <ul class="list-disc ml-6">
+          <% @question.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="w-full flex flex-col sm:flex-row w-full sm:gap-6">
+      <div class="mb-2 sm:w-[70%]">
+        <%= form.label :text, "Question Text" %>
+        <%= form.text_field :text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:text].none?, "border-red-400 focus:outline-red-600": @question.errors[:text].any?}] %>
+      </div>
+
+      <div class="mb-2 sm:w-[30%]">
+        <%= form.label :type, "Question Type" %>
+        <%= form.select :question_type, [["Text", "text"], ["Yes/No", "yesno"]], {}, { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}]} %>
+      </div>
+    </div>
+
+    <div class="inline">
+      <%= form.submit class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Back", production_call_to_audition_questions_path(@production, @call_to_audition), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>

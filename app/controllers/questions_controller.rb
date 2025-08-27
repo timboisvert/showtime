@@ -1,20 +1,12 @@
 class QuestionsController < ApplicationController
-  before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :set_question, only: %i[ edit update destroy ]
   before_action :set_production
   before_action :set_call_to_audition
 
   # GET /questions
   def index
-    @questions = Question.all
-  end
-
-  # GET /questions/1
-  def show
-  end
-
-  # GET /questions/new
-  def new
     @question = Question.new
+    @questions = Question.all
   end
 
   # GET /questions/1/edit
@@ -24,9 +16,10 @@ class QuestionsController < ApplicationController
   # POST /questions
   def create
     @question = Question.new(question_params)
+    @question.questionable = @call_to_audition
 
     if @question.save
-      redirect_to @question, notice: "Question was successfully created."
+      redirect_to production_call_to_audition_questions_path(@production, @call_to_audition), notice: "Question was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +28,7 @@ class QuestionsController < ApplicationController
   # PATCH/PUT /questions/1
   def update
     if @question.update(question_params)
-      redirect_to @question, notice: "Question was successfully updated.", status: :see_other
+      redirect_to production_call_to_audition_questions_path(@production, @call_to_audition), notice: "Question was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -44,7 +37,7 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   def destroy
     @question.destroy!
-    redirect_to questions_path, notice: "Question was successfully destroyed.", status: :see_other
+    redirect_to questions_path, notice: "Question was successfully deleted.", status: :see_other
   end
 
   private
@@ -61,6 +54,6 @@ class QuestionsController < ApplicationController
     end
 
     def question_params
-      params.expect(question: [ :key, :text, :type, :questionable_id, :questionable_type ])
+      params.expect(question: [ :key, :text, :question_type, :questionable_id, :questionable_type ])
     end
 end

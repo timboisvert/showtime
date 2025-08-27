@@ -69,6 +69,14 @@
       </div>
     <% end %>
 
+  <% if @questions.any? %>
+    <% @questions.each do |question| %>
+      <div class="my-5">
+        <label><%= question.text %>
+        <%= text_field_tag :socials, :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
+      </div>
+    <% end %>
+  <% end %>
 
   <div class="inline">
     <%= form.submit "Submit", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>

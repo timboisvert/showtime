@@ -1,6 +1,8 @@
 <% content_for :title, "Call to Audition" %>
 <div class="w-full">
+
   <%= render partial: "shared/notice", locals: { notice: notice } %>
+
   <%= render partial: "shared/top_menu", locals: {
     breadcrumbs: [
       ["Productions", productions_path],
@@ -10,20 +12,67 @@
     text: "Custom Questions",
     links: []
   } %>
-  <div id="questions" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @questions.any? %>
+
+  <% if @questions.any? %>
+    <div class="w-full mb-4 grid grid-cols-1 gap-2">
       <% @questions.each do |question| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render question %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", question, class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_question_path(question), class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", question, method: :delete, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        <div class="flex w-full p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all ">
+          <div class="grid grid-cols-1 mr-auto">
+            <p class="text-md mb-1"><%= question.text %></p>
+            <p class="text-sm font-normal text-gray-500">
+              Type:
+              <% if question.question_type == "text" %>
+                Text
+              <% elsif question.question_type == "yesno" %>
+                Yes/No
+              <% end %>
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-0 ml-10 min-w-39 inline-block ">
+            <%= render partial: "shared/link_button", locals: {text: "Edit", path: edit_production_call_to_audition_question_path(@production, @call_to_audition, question)} %>
+            <div class="inline-block">
+              <%= render partial: "shared/form_button", locals: {text: "Delete", path: production_call_to_audition_question_path(@production, @call_to_audition, question), method: :delete, data: { turbo_confirm: "Are you sure?" }} %>
+            </div>
           </div>
         </div>
       <% end %>
-    <% else %>
-      <p class="text-center my-10">No questions found.</p>
-    <% end %>
+    </div>
+  <% end %>
+
+  <div class="w-full">
+    <h1 class="font-bold text-2xl">Add a Custom Question</h1>
+    <p class="text-sm text-gray-500">Custom Questions are shown at the bottom of the Audition sign-up form.</p>
   </div>
+
+  <%= form_with(model: [@production, @call_to_audition, @question], class: "contents") do |form| %>
+    <% if @question.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+        <ul class="list-disc ml-6">
+          <% @question.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="w-full flex flex-col sm:flex-row w-full sm:gap-6">
+      <div class="my-2 sm:my-5 sm:w-[70%]">
+        <%= form.label :text, "Question Text" %>
+        <%= form.text_field :text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:text].none?, "border-red-400 focus:outline-red-600": @question.errors[:text].any?}] %>
+      </div>
+
+      <div class="my-2 sm:my-5 sm:w-[30%]">
+        <%= form.label :type, "Question Type" %>
+        <%= form.select :question_type, [["Text", "text"], ["Yes/No", "yesno"]], {}, { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}]} %>
+      </div>
+    </div>
+
+    <div class="inline">
+      <%= form.submit class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
 </div>
