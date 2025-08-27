@@ -8,11 +8,16 @@ class AuditionRequestsController < ApplicationController
   end
 
   def show
+    # Since an audition request starts in the "unreviewed" state, if it's being viewed,
+    # we can assume it's being reviewed, so move it to "undecided".
+    if @audition_request.unreviewed?
+      @audition_request.undecided!
+    end
   end
 
   def new
     @audition_request = AuditionRequest.new
-    @audition_request.status = :new
+    @audition_request.status = :unreviewed
   end
 
   def edit
@@ -20,7 +25,7 @@ class AuditionRequestsController < ApplicationController
 
 def create
     @audition_request = AuditionRequest.new(audition_request_params)
-    @audition_request.status = :new
+    @audition_request.status = :unreviewed
 
     if @audition_request.save
       redirect_to @audition_request, notice: "Audition request was successfully created."
@@ -46,7 +51,7 @@ def create
     @audition_request.status = params.expect(:status)
 
     if @audition_request.save
-      redirect_to @audition_request, notice: "Audition request status was successfully updated."
+      redirect_to production_call_to_audition_audition_requests_path(@production, @call_to_audition)
     else
       render :show, status: :unprocessable_entity
     end

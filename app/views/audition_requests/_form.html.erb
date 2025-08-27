@@ -12,11 +12,6 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :call_to_audition_id %>
-    <%= form.collection_select :call_to_audition_id, CallToAudition.all, :id, :production_name, prompt: "Select a Call to Audition" %>
-  </div>
-
-  <div class="my-5">
     <%= form.label :person_id %>
     <%= form.collection_select :person_id, Person.all, :id, :stage_name, prompt: "Select a Person" %>
   </div>

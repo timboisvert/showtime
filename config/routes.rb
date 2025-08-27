@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       resources :call_to_auditions do
         resources :audition_sessions
         resources :audition_requests
+
+        post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
       end
     end
 
