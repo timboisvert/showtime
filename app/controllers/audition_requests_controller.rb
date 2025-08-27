@@ -17,6 +17,9 @@ class AuditionRequestsController < ApplicationController
     if @audition_request.unreviewed?
       @audition_request.undecided!
     end
+
+    @person = @audition_request.person
+    @previous_audition_requests = @person.audition_requests.where.not(id: @audition_request.id).includes(call_to_audition: :production).order("created_at DESC")
   end
 
   def new
@@ -27,7 +30,7 @@ class AuditionRequestsController < ApplicationController
   def edit
   end
 
-def create
+  def create
     @audition_request = AuditionRequest.new(audition_request_params)
     @audition_request.status = :unreviewed
 
@@ -55,7 +58,7 @@ def create
     @audition_request.status = params.expect(:status)
 
     if @audition_request.save
-      redirect_to production_call_to_audition_audition_requests_path(@production, @call_to_audition)
+      redirect_back_or_to production_call_to_audition_audition_requests_path(@production, @call_to_audition)
     else
       render :show, status: :unprocessable_entity
     end

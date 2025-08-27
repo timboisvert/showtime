@@ -1,9 +1,6 @@
 <% content_for :title, "Audition Requests" %>
-
 <div class="w-full">
-
   <%= render partial: "shared/notice", locals: { notice: notice } %>
-
   <%= render partial: "shared/top_menu", locals: {
     breadcrumbs: [
       ["Productions", productions_path],
@@ -17,16 +14,12 @@
       }
     ]
   } %>
-
   <div class="grid grid-cols-1 gap-2 mb-4">
     <% if @audition_requests.any? %>
       <% @audition_requests.each do |audition_request| %>
-
         <div class="flex w-full p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-
           <%= link_to production_call_to_audition_audition_request_path(@production, @call_to_audition, audition_request), class: "flex items-center gap-4 mr-auto", data: { turbo_prefetch: false } do %>
             <div class="grid place-items-left grid-cols-[auto_1fr] gap-4 mr-auto">
-
               <div class="grid place-items-center">
                 <% if audition_request.person.headshot.attached? %>
                   <%= image_tag url_for(audition_request.person.headshot), class: "relative inline-block h-12 w-12 !rounded-full  object-cover object-center" %>
@@ -38,7 +31,6 @@
                   </div>
                 <% end %>
               </div>
-
               <div>
                 <h6 class="font-medium text-xl">
                   <%= audition_request.person.stage_name %>
@@ -52,10 +44,8 @@
                   <%= audition_request.person.email %>
                 </p>
               </div>
-
             </div>
           <% end %>
-
           <div class="grid grid-cols-4 gap-0 ml-auto">
             <%
               [:unreviewed, :undecided, :accepted, :passed].each do |status|
@@ -77,16 +67,12 @@
                   classes += " bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-white"
                 end
             %>
-
-              <%= link_to status.capitalize, production_call_to_audition_audition_request_set_status_path(@production, @call_to_audition, audition_request, status: status), class: classes, data: { turbo_method: :post } %>
-            <% end %>
-
-          </div>
-
+            <%= link_to status.capitalize, production_call_to_audition_audition_request_set_status_path(@production, @call_to_audition, audition_request, status: status), class: classes, data: { turbo_method: :post } %>
+          <% end %>
         </div>
-
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No Audition Requests found.</p>
+      </div>
     <% end %>
-  </div>
+  <% else %>
+    <p class="text-center my-10">No Audition Requests found.</p>
+  <% end %>
+</div>
