@@ -10,12 +10,14 @@ Rails.application.routes.draw do
 
     resources :productions do
       resources :shows
-      resources :call_to_auditions
+      resources :call_to_auditions do
+        resources :audition_sessions
+      end
     end
 
     resources :questions
     resources :auditions
-    resources :audition_sessions
+
     resources :cast_members
     resources :show_cast_assignments
     resources :cast_roles

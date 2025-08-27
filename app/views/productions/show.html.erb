@@ -1,6 +1,6 @@
 <% content_for :title, @production.name %>
 
-<div class="w-full">
+<div class="w-full mb-10">
 
   <%= render partial: "shared/notice", locals: { notice: notice } %>
 
@@ -25,12 +25,12 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4 mb-10">
     <% @production.shows.order(:date_and_time).each do |show| %>
       <%= link_to production_show_path(@production, show) do %>
-        <div class="p-4 min-h-24 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+        <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <p class="font-bold text-md"><%= show.date_and_time.strftime("%A, %B %-d, %Y") %></p>
           <p class="font-bold text-md mt-1"><%= show.date_and_time.strftime("%l:%M %p") %></p>
 
           <% if show.secondary_name.present? %>
-            <p class="font-bold text-2xl mb-3"><%= show.secondary_name %></p>
+            <p class="font-bold text-2xl"><%= show.secondary_name %></p>
           <% end %>
 
         </div>
@@ -61,11 +61,11 @@
     <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
 
-        <div class="p-4 pb-6 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+        <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
 
           <h2 class="font-bold text-lg col-span-1 mb-2">Call to Audition</h2>
 
-          <p class="mb-3">
+          <p class="mb-4">
             You currently have an open Call to Audition that began
             on <b><%= call_to_audition.opens_at.strftime("%B %-d, %Y") %></b> and
             closes on <b><%= call_to_audition.closes_at.strftime("%B %-d, %Y") %></b>.
@@ -75,47 +75,54 @@
 
         </div>
 
-        <div class="p-4 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+        <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Sessions</h2>
 
-
-          <div class="grid grid-cols-1 gap-1">
-
-            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
-              9/18/2025 6:00 PM
-              <p>7 auditionees scheduled</p>
+          <div class="grid grid-cols-1 gap-2 mb-4">
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+              <p class="text-xs mb-1">9/18/2025 at 6:00 PM</p>
+              <p class="font-bold text-xl">7 auditionees</p>
             </div>
-
-            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
-              9/18/2025 7:00 PM
-              <p>0 auditionees scheduled</p>
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+              <p class="text-xs mb-1">9/18/2025 at 7:00 PM</p>
+              <p class="font-bold text-xl">2 auditionees</p>
             </div>
-
-            <div class="p-2 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
-              9/18/2025 8:00 PM
-              <p>1 auditionee scheduled</p>
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+              <p class="text-xs mb-1">9/18/2025 at 8:00 PM</p>
+              <p class="font-bold text-xl">0 auditionees</p>
             </div>
           </div>
+
+          <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_call_to_audition_audition_session_path(@production, call_to_audition)} %>
 
         </div>
 
-        <div class="p-4 pb-6 border border-gray-200 rounded-md hover:border-gray-400 transition-all">
+        <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Requests</h2>
 
-          <div>
-            <p class="font-bold text-3xl">17</p>
-            <p>Unreviewed Requests</p>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+              <p class="font-bold text-5xl text-center">17</p>
+              <p class="text-xs text-center">New</p>
+            </div>
+
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+              <p class="font-bold text-5xl text-center">39</p>
+              <p class="text-xs text-center">Unreviewed</p>
+            </div>
+
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+              <p class="font-bold text-5xl text-center">23</p>
+              <p class="text-xs text-center">Accepted</p>
+            </div>
+
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all min-h-24">
+              <p class="font-bold text-5xl text-center">92</p>
+              <p class="text-xs text-center">Passed</p>
+            </div>
           </div>
 
-          <div>
-            <p class="font-bold text-3xl">23</p>
-            <p>Accepted</p>
-          </div>
-
-          <div>
-            <p class="font-bold text-3xl">92</p>
-            <p>Rejected</p>
-          </div>
+          <%= render partial: "shared/link_button", locals: {text: "View all Audition Requests", path: new_production_call_to_audition_audition_session_path(@production, call_to_audition)} %>
 
         </div>
 
