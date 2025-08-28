@@ -22,13 +22,15 @@
       </div>
     <% end %>
 
-    <%= form.fields_for :person do |person_form| %>
+    <%= form.fields_for @person do |person_form| %>
+
       <div class="my-5">
         <% if @person.errors[:email].none? %>
           <%= person_form.label :email %>
         <% else %>
           <%= person_form.label :email, "Email is required", class: "text-red-500" %>
         <% end %>
+
         <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:email].none?, "border-red-400 focus:outline-red-600": @person.errors[:email].any?}] %>
       </div>
 
@@ -55,13 +57,28 @@
 
       <div class="my-5 md:flex md:w-full">
         <div class="md:mr-5 md:w-half">
-          <%= person_form.label :resume, "Resume/CV" %>
+
+          <%
+            if @person.resume.attached?
+              label_text = "Replace Resume/CV"
+            else
+              label_text = "Resume/CV"
+            end
+          %>
+          <%= person_form.label :resume, label_text %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
             <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
           </div>
         </div>
         <div class="my-5 md:my-0 md:ml-5 md:w-half">
-          <%= person_form.label :headshot %>
+          <%
+            if @person.headshot.attached?
+              label_text = "Replace Headshot"
+            else
+              label_text = "Headshot"
+            end
+          %>
+          <%= person_form.label :headshot, label_text %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
             <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
           </div>
@@ -75,17 +92,24 @@
         <label><%= question.text %>
 
         <% if question.question_type == "text" %>
-          <%= text_area_tag "question[#{question.id}]", "", class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
+          <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
         <% elsif question.question_type == "yesno" %>
-          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: true %> Yes</div>
-          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no" %> No</div>
+          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes") %> Yes</div>
+          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no") %> No</div>
        <% end %>
       </div>
     <% end %>
   <% end %>
 
-  <div class="inline">
-    <%= form.submit "Submit", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="inline pb-5">
+    <%
+      if @call_to_audition.new_record?
+        submit_text = "Submit"
+      else
+        submit_text = "Update"
+      end
+    %>
+    <%= form.submit submit_text, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
 
   <% end %>
