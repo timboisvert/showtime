@@ -1,6 +1,10 @@
 class CallToAuditionsController < ApplicationController
-  before_action :set_call_to_audition, only: %i[ edit update destroy ]
+  before_action :set_call_to_audition, only: %i[ edit update destroy preview ]
   before_action :set_production
+
+  # Use the public facing layout on the preview
+  layout "public_facing", only: [ :preview ]
+
 
   # GET /call_to_auditions/new
   def new
@@ -17,7 +21,12 @@ class CallToAuditionsController < ApplicationController
     @call_to_audition.production = @production
 
     # Create a random hex code for the audition link
-    @call_to_audition.hex_code = SecureRandom.hex(5).upcase
+    @call_to_audition.hex_code = SecureRandom.hex(4).upcase
+
+    # Make sure it's unique and regenerate if not
+    while CallToAudition.exists?(hex_code: @call_to_audition.hex_code)
+      @call_to_audition.hex_code = SecureRandom.hex(4).upcase
+    end
 
     if @call_to_audition.save
       redirect_to edit_production_call_to_audition_path(@production, @call_to_audition), notice: "Call to Audition was successfully created."
@@ -39,6 +48,13 @@ class CallToAuditionsController < ApplicationController
   def destroy
     @call_to_audition.destroy!
     redirect_to @production, notice: "Call to Audition was successfully deleted.", status: :see_other
+  end
+
+  def preview
+    @audition_request = AuditionRequest.new
+    @person = @audition_request.build_person
+    @questions = @call_to_audition.questions
+    @answers = {}
   end
 
   private

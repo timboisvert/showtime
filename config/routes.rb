@@ -17,8 +17,12 @@ Rails.application.routes.draw do
         resources :audition_sessions
         resources :audition_requests
 
+        # Set status on audition requests
         post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
       end
+
+      # Preview the response form
+      get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
     end
 
     resources :questions

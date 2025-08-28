@@ -58,7 +58,9 @@
               <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", path: edit_production_call_to_audition_path(@production, call_to_audition)} %>
             </div>
             <div class="">
-              <%= render partial: "shared/link_button", locals: {text: "Preview Form", path: respond_to_call_to_audition_path(call_to_audition.hex_code)} %>
+              <%= render partial: "shared/link_button", locals: {text: "Preview Form", path: production_call_to_audition_preview_path(@production, call_to_audition)} %>
+
+              <%= call_to_audition.respond_url %>
             </div>
           </div>
         </div>
