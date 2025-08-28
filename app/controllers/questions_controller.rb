@@ -5,8 +5,8 @@ class QuestionsController < ApplicationController
 
   # GET /questions
   def index
-    @question = Question.new
-    @questions = Question.all
+    @question = @call_to_audition.questions.new
+    @questions = @call_to_audition.questions.all
   end
 
   # GET /questions/1/edit

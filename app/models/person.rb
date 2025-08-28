@@ -4,5 +4,5 @@ class Person < ApplicationRecord
   has_many :audition_requests, dependent: :destroy
 
   validates :stage_name, presence: true
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true
 end

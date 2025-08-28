@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_27_204807) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_28_023243) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_204807) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "question_id", null: false
+    t.integer "call_to_audition_id", null: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["call_to_audition_id"], name: "index_answers_on_call_to_audition_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
   create_table "audition_requests", force: :cascade do |t|
@@ -160,6 +170,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_204807) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "call_to_auditions"
+  add_foreign_key "answers", "questions"
   add_foreign_key "audition_requests", "call_to_auditions"
   add_foreign_key "audition_requests", "people"
   add_foreign_key "audition_sessions", "call_to_auditions"
