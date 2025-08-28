@@ -20,6 +20,8 @@ class AuditionRequestsController < ApplicationController
 
     @person = @audition_request.person
     @previous_audition_requests = @person.audition_requests.where.not(id: @audition_request.id).includes(call_to_audition: :production).order("created_at DESC")
+
+    @answers = @audition_request.answers.includes(:question)
   end
 
   def new

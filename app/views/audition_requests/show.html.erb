@@ -19,7 +19,7 @@
       </div>
       <div class="w-full sm:w-[40%] flex flex-col">
         <% if @person.headshot.attached? %>
-          <%= image_tag url_for(@person.headshot), class: "relative inline-block w-full" %>
+          <%= image_tag url_for(@person.headshot), class: "relative inline-block max-w-64" %>
         <% else %>
           <div class="relative inline-block h-12 w-12 rounded-full bg-gray-200">
             <svg class="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -28,33 +28,62 @@
           </div>
         <% end %>
         <div class="text-4xl font-bold mt-3"><%= @person.stage_name %></div>
-        <div class="text-sm text-gray-600 mb-1">(<%= @person.pronouns %>)</div>
-        <div class="text-md text-gray-500"><%= mail_to @person.email %></div>
-        <div class="text-md text-gray-500"><%= @person.socials %></div>
-        <div class="grid grid-cols-4 gap-0 ml-auto">
-          <%
-            [:unreviewed, :undecided, :accepted, :passed].each do |status|
-              classes = "text-md px-5 py-2.5 text-center border border-gray-200"
+        <div class="text-sm text-gray-400 mb-1">(<%= @person.pronouns %>)</div>
+        <div class="text-md"><%= mail_to @person.email %></div>
+        <div class="text-md"><%= @person.socials %></div>
 
-              # Set the borders based on position in the list of statuses
-              if status == :unreviewed
-                classes += " rounded-l-lg"
-              elsif status == :undecided
-                classes += " border-l-0"
-              elsif status == :accepted
-                classes += " border-l-0"
-              elsif status == :passed
-                classes += " rounded-r-lg"
-              end
+        <% if @answers.any? %>
+          <% @answers.each do |answer| %>
+            <div class="p-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all mt-2">
+              <div class="text-md"><%= answer.question.text %></div>
+              <div class="text-md font-medium">
+                <% if answer.question.question_type == "yesno" %>
+                  <%= answer.value.capitalize %>
+                <% else %>
+                  <%= answer.value %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
 
-              # Set the background color based on status
-              if @audition_request.status == status.to_s
-                classes += " bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-white"
-              end
-          %>
+    </div>
+  </div>
+</div>
+
+<div class="fixed bottom-0 left-0 h-24 w-full bg-white text-pink-500 p-3 shadow-[0_-5px_10px_rgba(0,0,0,0.3)]">
+
+    <div class="grid grid-cols-4 gap-0">
+
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        <p class="text-left text-xs">
+          Previous
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 col-span-2 pt-2 items-center content-center">
+        <%
+          [:undecided, :accepted, :passed].each do |status|
+            classes = "text-lg font-bold px-5 py-2.5 text-center border rounded-lg border-gray-200 bg-white text-pink-500"
+
+            # Set the background color based on status
+            if @audition_request.status == status.to_s
+              classes += " bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-white"
+            end
+        %>
           <%= link_to status.capitalize, production_call_to_audition_audition_request_set_status_path(@production, @call_to_audition, @audition_request, status: status), class: classes, data: { turbo_method: :post } %>
         <% end %>
       </div>
-    </div>
-  </div>
+
+      <div class="ml-auto align-right">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
+        <p class="text-center text-xs">
+          Next
+        </p>
+      </div>
 </div>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # App routes
   scope "/app" do
     root "home#index"

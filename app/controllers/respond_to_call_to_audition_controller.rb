@@ -20,7 +20,7 @@ class RespondToCallToAuditionController < ApplicationController
 
     # Loop through the questions and store the answers
     params[:question].each do |question_id, value|
-      answer = @call_to_audition.answers.build
+      answer = @audition_request.answers.build
       answer.question = Question.find question_id
       answer.value = value
     end

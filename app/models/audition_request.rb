@@ -1,6 +1,7 @@
 class AuditionRequest < ApplicationRecord
   belongs_to :call_to_audition
   belongs_to :person
+  has_many :answers
 
   enum :status, {
     unreviewed: 0,
