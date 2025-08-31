@@ -67,7 +67,7 @@
           %>
           <%= person_form.label :resume, label_text %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
           </div>
         </div>
         <div class="my-5 md:my-0 md:ml-5 md:w-half">
@@ -80,7 +80,7 @@
           %>
           <%= person_form.label :headshot, label_text %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
           </div>
         </div>
       </div>
@@ -94,8 +94,8 @@
         <% if question.question_type == "text" %>
           <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
         <% elsif question.question_type == "yesno" %>
-          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes") %> Yes</div>
-          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no") %> No</div>
+          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes" || @answers[question.id].blank?), class: "accent-pink-500" %> Yes</div>
+          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no"), class: "accent-pink-500" %> No</div>
        <% end %>
       </div>
     <% end %>
@@ -109,7 +109,7 @@
         submit_text = "Update"
       end
     %>
-    <%= form.submit submit_text, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit submit_text, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800inline-block font-medium cursor-pointer" %>
   </div>
 
   <% end %>

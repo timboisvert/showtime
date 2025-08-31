@@ -1,29 +1,30 @@
 
-<div class="fixed top-0 left-0 h-29 lg:h-16 w-full bg-pink-500 text-pink-500 p-3">
+<div class="fixed top-0 left-0 h-16 w-full bg-pink-500 text-pink-500 p-3">
 
-  <div class="lg:flex justify-between items-center h-full mx-auto content-center">
+  <div class="flex justify-between items-center h-full mx-auto content-center">
 
-    <div class="lg:w-1/2 mb-4 lg:mb-0 lg:gap-1 flex justify-between lg:justify-start lg:flex-none">
-      <%= render partial: "shared/link_button", locals: {text: "Close Preview", color: "white", path: production_path(@production)} %>
-      <%= render partial: "shared/link_button", locals: {text: "Edit Call to Audition", color: "white", path: edit_production_call_to_audition_path(@production, @call_to_audition)} %>
-    </div>
+    <%= render partial: "shared/link_button", locals: {text: "Close Preview", color: "white", path: production_path(@production)} %>
+    <p class="text-white text-2xl font-medium">Preview</p>
+    <%= render partial: "shared/link_button", locals: {text: "Edit", color: "white", path: edit_production_call_to_audition_path(@production, @call_to_audition)} %>
 
-    <div class="w-full lg:w-1/2 flex items-center">
-      <p class="text-nowrap text-white text-sm mr-2">Shareable Link:</p>
-      <%= text_field_tag "", @call_to_audition.respond_url, class: "block w-64 text-sm text-black bg-white shadow-sm rounded-lg border px-3 py-2 w-full border-gray-400" %>
-      <p class="ml-1 font-medium rounded-lg text-sm px-2 py-1 h-9 text-center mb-0 inline-block text-black bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-        </svg>
-
-      </p>
-    </div>
 
   </div>
 </div>
 
+<div class="fixed bottom-0 left-0 h-16 w-full bg-pink-500 text-pink-500 p-3">
+  <div class="w-full md:w-1/2 flex items-center mx-auto">
+    <p class="text-nowrap text-white text-sm mr-2">Shareable Link:</p>
+    <%= text_field_tag "", @call_to_audition.respond_url, class: "block w-64 text-sm text-black bg-white shadow-sm rounded-lg border px-3 py-2 w-full border-gray-400" %>
+    <p class="ml-1 font-medium rounded-lg text-sm px-2 py-1 h-9 text-center mb-0 inline-block text-black bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+      </svg>
+    </p>
+  </div>
+</div>
 
-<div class="w-full max-w-4xl mt-24 lg:mt-12">
+
+<div class="w-full max-w-4xl mt-12 mb-18">
   <h1 class="font-bold text-4xl"><%= @production.name %></h1>
   <h2 class="font-bold text-2xl pt-5">Audition sign-up form</h2>
 
@@ -84,13 +85,13 @@
         <div class="md:mr-5 md:w-half">
           <%= person_form.label :resume, "Resume/CV" %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
           </div>
         </div>
         <div class="my-5 md:my-0 md:ml-5 md:w-half">
           <%= person_form.label :headshot, "Headshot" %>
           <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
           </div>
         </div>
       </div>
@@ -104,15 +105,15 @@
         <% if question.question_type == "text" %>
           <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
         <% elsif question.question_type == "yesno" %>
-          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes") %> Yes</div>
-          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no") %> No</div>
+          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes" || @answers[question.id].blank?), class: "accent-pink-500" %> Yes</div>
+          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no"), class: "accent-pink-500" %> No</div>
        <% end %>
       </div>
     <% end %>
   <% end %>
 
   <div class="inline pb-5">
-    <%= form.submit "Submit", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Submit", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 inline-block font-medium cursor-pointer" %>
   </div>
 
   <% end %>
