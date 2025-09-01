@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_28_023243) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_01_203822) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -165,6 +165,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_023243) do
     t.index ["questionable_type", "questionable_id"], name: "index_questions_on_questionable"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "show_cast_assignments", force: :cascade do |t|
     t.bigint "show_id", null: false
     t.bigint "person_id", null: false
@@ -185,6 +194,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_023243) do
     t.index ["production_id"], name: "index_shows_on_production_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "audition_requests"
@@ -200,6 +217,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_023243) do
   add_foreign_key "cast_roles", "casts"
   add_foreign_key "casts", "productions"
   add_foreign_key "productions", "production_companies"
+  add_foreign_key "sessions", "users"
   add_foreign_key "show_cast_assignments", "cast_roles"
   add_foreign_key "show_cast_assignments", "people"
   add_foreign_key "show_cast_assignments", "shows"

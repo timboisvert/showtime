@@ -1,39 +1,38 @@
 Rails.application.routes.draw do
+  root "home#index"
+  get "home/index"
+
   resource :session
   resources :passwords, param: :token
-  # App routes
-  scope "/app" do
-    root "home#index"
-    get "home/index"
 
-    resources :production_companies
+  resources :production_companies
 
-    resources :people
+  resources :people
 
-    resources :productions do
-      resources :shows
-      resources :call_to_auditions do
-        resources :questions
-        resources :audition_sessions
-        resources :audition_requests
+  resources :productions do
+    resources :shows
+    resources :call_to_auditions do
+      resources :questions
+      resources :audition_sessions
+      resources :audition_requests
 
-        # Set status on audition requests
-        post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
-      end
-
-      # Preview the response form
-      get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
+      # Set status on audition requests
+      post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
     end
 
-    resources :questions
-    resources :auditions
-
-    resources :cast_members
-    resources :show_cast_assignments
-    resources :cast_roles
-    resources :casts
-    resources :audition_requests
+    # Preview the response form
+    get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
   end
+
+  resources :questions
+  resources :auditions
+
+  resources :cast_members
+  resources :show_cast_assignments
+  resources :cast_roles
+  resources :casts
+  resources :audition_requests
+
 
   # Public-facing routes
   get "/respond/:hex_code", to: "respond_to_call_to_audition#new", as: "respond_to_call_to_audition"

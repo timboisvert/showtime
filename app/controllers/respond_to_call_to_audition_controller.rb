@@ -1,4 +1,6 @@
 class RespondToCallToAuditionController < ApplicationController
+  allow_unauthenticated_access
+
   before_action :get_call_to_audition_and_questions
 
   # Use the public facing layout
