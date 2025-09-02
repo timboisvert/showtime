@@ -20,7 +20,8 @@ Rails.application.routes.draw do
       post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
     end
 
-    # Preview the response form
+    # Addition Call To Audition routes
+    post "call_to_auditions/:id/end_early", to: "call_to_auditions#end_early", as: "call_to_audition_end_early"
     get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
   end
 
