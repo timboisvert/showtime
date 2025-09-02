@@ -14,6 +14,19 @@
       }
     ]
   } %>
+
+  <div class="flex mb-4 items-center">
+    <p>
+      Filter:
+    </p>
+    <div class="flex gap-1 ml-2">
+      <% ["All", "Unreviewed", "Undecided", "Accepted", "Passed"].each do |status| %>
+        <% status_param = status.downcase == "all" ? nil : status.downcase %>
+        <%= link_to status, production_call_to_audition_audition_requests_path(@production, @call_to_audition, status: status_param), class: "px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-100 #{'bg-pink-500 text-white hover:text-black' if params[:status] == status_param || (params[:status].blank? && status_param.nil?)}" %>
+      <% end %>
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 gap-2 mb-4">
     <% if @audition_requests.any? %>
       <% @audition_requests.each do |audition_request| %>
@@ -73,6 +86,19 @@
       </div>
     <% end %>
   <% else %>
-    <p class="text-center my-10">No Audition Requests found.</p>
+
+    <p class="my-5">
+      <% if params[:status].blank? %>
+        No one has applied for an audition yet.
+      <% elsif params[:status] == "unreviewed" %>
+        You have no unreviewed audition requests.
+      <% elsif params[:status] == "undecided" %>
+        You have no undecided audition requests.
+      <% elsif params[:status] == "accepted" %>
+        You haven't accepted any audition requests.
+      <% elsif params[:status] == "passed" %>
+        You haven't passed on any audition requests.
+      <% end %>
+    </p>
   <% end %>
 </div>

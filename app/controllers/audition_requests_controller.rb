@@ -8,7 +8,11 @@ class AuditionRequestsController < ApplicationController
 
 
   def index
-    @audition_requests = AuditionRequest.all
+    if params[:status].present?
+      @audition_requests = AuditionRequest.where(status: params[:status]).order(:created_at)
+    else
+      @audition_requests = AuditionRequest.order(:created_at)
+    end
   end
 
   def show
