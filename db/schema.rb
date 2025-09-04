@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_01_203822) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_222325) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -129,6 +129,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_01_203822) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["production_id"], name: "index_casts_on_production_id"
+  end
+
+  create_table "notify_mes", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "people", force: :cascade do |t|

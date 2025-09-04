@@ -7,12 +7,10 @@
     Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO.
     Sign up to get more info when we launch.
   </p>
-  <%= form_with url: "/notify_me", method: :post, local: true do |form| %>
-    <div class="flex">
-      <%= form.email_field :email, required: true, placeholder: "Your email address", class: "flex-1 px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-pink-500" %>
-      <%= form.submit "Notify Me", class: "bg-pink-500 text-white px-4 py-2 rounded-r hover:bg-pink-600 transition" %>
-    </div>
-  <% end %>
+  <p class="mb-6 p-5 text-lg inter-regular bg-pink-500 rounded-lg text-white">
+    Thank you! We'll keep you posted.
+  </p>
+
 </div>
 <div class="w-full pt-5 md:pt-0 md:fixed md:bottom-0 md:right-0 md:w-[50%] md:h-full md:flex md:items-end md:justify-end pointer-events-none">
   <img src="<%= asset_path('cocoscout.png') %>" alt="CocoScout" class="max-h-[70%] object-contain select-none pointer-events-none mr-5" />

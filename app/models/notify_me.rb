@@ -1,0 +1,2 @@
+class NotifyMe < ApplicationRecord
+end

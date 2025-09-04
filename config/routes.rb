@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root "home#index"
+
+  # Landing page
   get "home/index"
+  post "/notify_me", to: "home#notify_me", as: "notify_me"
+  get "/notify_me/success", to: "home#notify_me_success", as: "notify_me_success"
 
   resource :session
   resources :passwords, param: :token
