@@ -21,11 +21,11 @@ class CallToAuditionsController < ApplicationController
     @call_to_audition.production = @production
 
     # Create a random hex code for the audition link
-    @call_to_audition.hex_code = SecureRandom.hex(4).upcase
+    @call_to_audition.hex_code = SecureRandom.alphanumeric(5).upcase
 
     # Make sure it's unique and regenerate if not
     while CallToAudition.exists?(hex_code: @call_to_audition.hex_code)
-      @call_to_audition.hex_code = SecureRandom.hex(4).upcase
+      @call_to_audition.hex_code = SecureRandom.alphanumeric(5).upcase
     end
 
     if @call_to_audition.save
