@@ -1,11 +1,11 @@
 <div class="w-full md:w-[50%] md:min-h-screen pt-10">
-  <h1 class="text-4xl pt-2 font-bold mb-10 md:text-3xl md:pt-0 md:mb-20 ">CocoScout</h1>
-  <p class="mb-6 text-5xl">We are debuting soon.</p>
-  <p class="mb-6 text-lg inter-regular">
-    We're building the world's best audition management and casting system -- Text TODO
-    Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO
-    Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO Text TODO.
-    Sign up to get more info when we launch.
+  <h1 class="text-4xl pt-2 font-bold mb-10 md:text-3xl md:pt-0 md:mb-20 coustard-regular">CocoScout</h1>
+  <p class="mb-6 text-5xl coustard-regular">Coming Soon!</p>
+  <p class="mb-6 text-lg">
+    We are in the midst of developing the world's premier tool for entertainment production management.
+    CocoScout gives show creators power to organize the chaos of auditions, casting, talent scheduling,
+    and more. From casting call to final curtain, CocoScout takes care of the logistics, so you can focus
+    on creating unforgettable entertainment. Enter your email below to be notified when CocoScout launches!
   </p>
   <%= form_with url: "/notify_me", method: :post, local: true do |form| %>
     <div class="flex">
@@ -16,4 +16,7 @@
 </div>
 <div class="w-full pt-5 md:pt-0 md:fixed md:bottom-0 md:right-0 md:w-[50%] md:h-full md:flex md:items-end md:justify-end pointer-events-none">
   <img src="<%= asset_path('cocoscout.png') %>" alt="CocoScout" class="max-h-[70%] object-contain select-none pointer-events-none mr-5" />
+</div>
+<div class="text-center py-4 md:py-0 md:text-left md:fixed md:bottom-4 md:left-4 text-xs">
+  <p>A <a href="https://cocorunseverything.com" target="_blank" rel="noopener" class="underline">Coco Runs Everything </a> production</p>
 </div>
