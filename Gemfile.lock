@@ -112,6 +112,8 @@ GEM
     debug (1.11.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
@@ -148,6 +150,41 @@ GEM
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
+    litestream (0.14.0)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-aarch64-linux)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-arm64-darwin)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-x86_64-darwin)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-x86_64-linux)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
     logger (1.7.0)
     loofah (2.24.1)
       crass (~> 1.0.2)
@@ -297,6 +334,14 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
+    sqlite3 (2.7.3-aarch64-linux-gnu)
+    sqlite3 (2.7.3-aarch64-linux-musl)
+    sqlite3 (2.7.3-arm-linux-gnu)
+    sqlite3 (2.7.3-arm-linux-musl)
+    sqlite3 (2.7.3-arm64-darwin)
+    sqlite3 (2.7.3-x86_64-darwin)
+    sqlite3 (2.7.3-x86_64-linux-gnu)
+    sqlite3 (2.7.3-x86_64-linux-musl)
     sshkit (1.24.0)
       base64
       logger
@@ -363,9 +408,11 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  dockerfile-rails (>= 1.7)
   dotenv-rails
   importmap-rails
   kamal
+  litestream (~> 0.14.0)
   pg
   propshaft
   puma (>= 5.0)
