@@ -44,7 +44,7 @@ env:
 
     # Match this to any external database server to configure Active Record correctly
     # Use cocoscout-db for a db accessory server on same machine via local kamal docker network.
-    # DATABASE_URL: DATABASE_URL
+    DATABASE_URL: DATABASE_URL
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
