@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "rails", "~> 8.0.2", ">= 8.0.2.1"
 gem "propshaft"
-gem "pg"
+gem "sqlite3", "~> 1.4"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
 gem "tailwindcss-rails"
@@ -50,6 +50,6 @@ group :development do
   gem "web-console"
 end
 
-gem "dockerfile-rails", ">= 1.7", :group => :development
+gem "dockerfile-rails", ">= 1.7", group: :development
 
 gem "litestream", "~> 0.14.0"
