@@ -38,7 +38,7 @@ class RespondToCallToAuditionController < ApplicationController
 
   def create
     # Strong parameters for the person
-    person_params = params.require(:audition_request).permit(person: [ :stage_name, :email, :pronouns, :socials, :resume, :headshot ])
+    person_params = params.require(:audition_request).permit(person: [ :stage_name, :email, :pronouns, :socials, :resume, :headshot, :questions ])
 
     # We may be updating an existing response, so check for that first
     if cookies.signed["#{@call_to_audition.hex_code}"]
@@ -51,10 +51,12 @@ class RespondToCallToAuditionController < ApplicationController
       @person.assign_attributes(person_params[:person])
 
       # Update the answers
-      params[:question].each do |question_id, value|
-        answer = @audition_request.answers.find_or_initialize_by(question: question_id)
-        answer.value = value
+      @answers = {}
+      params[:question].each do |question|
+        answer = @audition_request.answers.find_or_initialize_by(question: question[:id])
+        answer.value = question[:text]
         answer.save!
+        @answers[question[:id]] = question[:text]
       end
 
     else
@@ -65,10 +67,12 @@ class RespondToCallToAuditionController < ApplicationController
       @person = @audition_request.build_person(person_params[:person])
 
       # Loop through the questions and store the answers
-      params[:question].each do |question_id, value|
+      @answers = {}
+      params[:question].each do |question|
         answer = @audition_request.answers.build
-        answer.question = Question.find question_id
-        answer.value = value
+        answer.question = Question.find question.first
+        answer.value = question.last
+        @answers[answer.question.id] = answer.value
       end
 
     end

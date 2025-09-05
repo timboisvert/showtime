@@ -1,0 +1,44 @@
+<div class="my-2 sm:my-5">
+    <p>Options</p>
+
+    <div data-controller="nested-form">
+        <div data-nested-form-target="children">
+        <%= form.fields_for :question_options do |option_form| %>
+            <%= render "question_option_fields", form: option_form %>
+        <% end %>
+        </div>
+
+        <template data-nested-form-target="template">
+        <%= form.fields_for :question_options, QuestionOption.new, child_index: "NEW_CHILD_RECORD" do |option_form| %>
+            <%= render "question_option_fields", form: option_form %>
+        <% end %>
+        </template>
+
+        <button type="button" data-action="nested-form#add" class="class=
+        text-white
+        bg-gradient-to-r
+        from-pink-400
+        via-pink-500
+        to-pink-600
+        hover:bg-gradient-to-br
+        focus:ring-4
+        focus:outline-none
+        focus:ring-pink-300
+        dark:focus:ring-pink-800
+        font-medium
+        rounded-lg
+        text-sm
+        px-5
+        mt-2
+        h-10
+        py-2.5
+        text-center
+        mb-0
+        inline-block
+        cursor-pointer"
+        >
+        + Add an option
+        </button>
+    </div>
+
+</div>

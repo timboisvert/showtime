@@ -14,7 +14,7 @@
   } %>
 
   <% if @questions.any? %>
-    <div class="w-full mb-4 grid grid-cols-1 gap-2">
+    <div class="w-full mb-4 grid grid-cols-1 gap-2 border-b border-gray-200 pb-4">
       <% @questions.each do |question| %>
         <div class="flex w-full p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all ">
           <div class="grid grid-cols-1 mr-auto">
@@ -27,8 +27,10 @@
                 Yes/No
               <% elsif question.question_type == "multiple-multiple" %>
                 Select Multiple Options
+                <span class="ml-1 text-gray-400">(Options: <%= question.question_options.pluck(:text).join(", ") %>)</span>
               <% elsif question.question_type == "multiple-single" %>
                 Select Single Option
+                <span class="ml-1 text-gray-400">(Options: <%= question.question_options.pluck(:text).join(", ") %>)</span>
               <% end %>
             </p>
           </div>
@@ -67,14 +69,31 @@
       <%= form.text_field :text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:text].none?, "border-red-400 focus:outline-red-600": @question.errors[:text].any?}] %>
     </div>
 
-    <div class="my-2 sm:my-5 sm:w-64">
-      <%= form.label :type, "Question Type" %>
-      <%= form.select :question_type, [["Text", "text"], ["Yes/No", "yesno"], ["Select Multiple Options", "multiple-multiple"], ["Select Single Option", "multiple-single"]], {}, { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}]} %>
+    <div data-controller="form-toggle">
+      <div class="my-2 sm:my-5 sm:w-64">
+        <%= form.label :question_type, "Question Type" %>
+        <%= form.select :question_type,
+          [["Text", "text"], ["Yes/No", "yesno"], ["Select Multiple Options", "multiple-multiple"], ["Select Single Option", "multiple-single"]],
+          {},
+          { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}],
+            data: { "form-toggle-target": "select", action: "change->form-toggle#toggle"}
+          } %>
+      </div>
+
+      <div data-form-toggle-target="section" data-toggle-value="multiple-multiple" class="hidden">
+        <%= render partial: "multiple_options", locals: { form: form } %>
+      </div>
+
+      <div data-form-toggle-target="section" data-toggle-value="multiple-single" class="hidden">
+        <%= render partial: "multiple_options", locals: { form: form } %>
+      </div>
+
     </div>
 
-    <div class="inline">
-      <%= form.submit "Add Question", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
+    <div class="w-full border-t border-gray-200 pt-5 my-5">
+      <%= form.submit "Add Question", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 text-white inline-block font-medium cursor-pointer" %>
+      <%= link_to "Back", edit_production_call_to_audition_path(@production, @call_to_audition), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+     </div>
   <% end %>
 
 </div>

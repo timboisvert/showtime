@@ -11,7 +11,7 @@
   <%= form_with(model: @audition_request, url: handle_respond_to_call_to_audition_path(@call_to_audition.hex_code), method: :post, class: "contents", data: { turbo: false }) do |form| %>
 
     <% if @audition_request.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <div id="error_explanation" class="bg-pink-50 text-pink-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(@audition_request.errors.count, "error") %> prohibited this audition_request from being saved:</h2>
 
         <ul class="list-disc ml-6">
@@ -28,31 +28,31 @@
         <% if @person.errors[:email].none? %>
           <%= person_form.label :email %>
         <% else %>
-          <%= person_form.label :email, "Email is required", class: "text-red-500" %>
+          <%= person_form.label :email, "Email is required", class: "text-pink-600" %>
         <% end %>
 
-        <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:email].none?, "border-red-400 focus:outline-red-600": @person.errors[:email].any?}] %>
+        <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:email].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:email].any?}] %>
       </div>
 
       <div class="my-5">
         <% if @person.errors[:email].none? %>
           <%= person_form.label :stage_name, "Stage Name" %>
         <% else %>
-          <%= person_form.label :stage_name, "Stage Name is required", class: "text-red-500"  %>
+          <%= person_form.label :stage_name, "Stage Name is required", class: "text-pink-600"  %>
         <% end %>
-        <%= person_form.text_field :stage_name, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:stage_name].none?, "border-red-400 focus:outline-red-600": @person.errors[:stage_name].any?}] %>
+        <%= person_form.text_field :stage_name, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:stage_name].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:stage_name].any?}] %>
       </div>
 
       <div class="my-5">
         <%= person_form.label :pronouns %>
         <span class="text-sm text-gray-500"> (optional)</span>
-        <%= person_form.text_field :pronouns, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:pronouns].none?, "border-red-400 focus:outline-red-600": @person.errors[:pronouns].any?}] %>
+        <%= person_form.text_field :pronouns, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:pronouns].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:pronouns].any?}] %>
       </div>
 
       <div class="my-5">
         <%= person_form.label :socials %>
         <span class="text-sm text-gray-500"> (optional)</span>
-        <%= person_form.text_field :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
+        <%= person_form.text_field :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:socials].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:socials].any?}] %>
       </div>
 
       <div class="my-5 md:flex md:w-full">
@@ -89,21 +89,50 @@
   <% if @questions.any? %>
     <% @questions.each do |question| %>
       <div class="my-5">
-        <label><%= question.text %>
+        <label><%= question.text %></label>
 
         <% if question.question_type == "text" %>
-          <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @person.errors[:socials].none?, "border-red-400 focus:outline-red-600": @person.errors[:socials].any?}] %>
+
+          <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:socials].none?, "border-pink-400 focus:outline-pink-600": @person.errors[:socials].any?}] %>
+
         <% elsif question.question_type == "yesno" %>
-          <div class="px-2 py-1 pt-2"><%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes" || @answers[question.id].blank?), class: "accent-pink-500" %> Yes</div>
-          <div class="px-2"><%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no"), class: "accent-pink-500" %> No</div>
+
+          <div class="px-2 py-1">
+            <%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes" || @answers[question.id].blank?), class: "accent-pink-500 mr-1" %>
+            <%= label_tag "question[#{question.id}][yes]", "Yes" %>
+          </div>
+          <div class="px-2 py-1">
+            <%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no"), class: "accent-pink-500 mr-1" %>
+            <%= label_tag "question[#{question.id}][no]", "No" %>
+          </div>
+
+        <% elsif question.question_type == "multiple-multiple" %>
+
+          <% question.question_options.each do |option| %>
+            <div class="px-2 py-1">
+              <%= check_box_tag "question[#{question.id}][#{option.text}]", option.text, @answers[question.id]&.include?(option.text),class: "accent-pink-500 mr-1" %>
+              <%= label_tag "question[#{question.id}][#{option.text}]", option.text %>
+            </div>
+          <% end %>
+
+        <% elsif question.question_type == "multiple-single" %>
+
+          <% question.question_options.each do |option| %>
+            <div class="px-2 py-1">
+              <%= radio_button_tag "question[#{question.id}]", option.text, @answers[question.id] == option.text, class: "accent-pink-500 mr-1" %>
+              <%= label_tag "question[#{question.id}][#{option.text}]", option.text %>
+            </div>
+          <% end %>
+
        <% end %>
+
       </div>
     <% end %>
   <% end %>
 
   <div class="inline pb-5">
     <%
-      if @call_to_audition.new_record?
+      if @call_to_audition.id?
         submit_text = "Submit"
       else
         submit_text = "Update"

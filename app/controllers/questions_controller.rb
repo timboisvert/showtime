@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   # GET /questions
   def index
     @question = @call_to_audition.questions.new
-    @questions = @call_to_audition.questions.all
+    @question.question_options.build if [ "multiple-multiple", "multiple-single" ].include?(@question.question_type)
   end
 
   # GET /questions/1/edit
@@ -21,7 +21,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to production_call_to_audition_questions_path(@production, @call_to_audition), notice: "Question was successfully created."
     else
-      render :new, status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
@@ -51,9 +51,10 @@ class QuestionsController < ApplicationController
 
     def set_call_to_audition
       @call_to_audition = CallToAudition.find(params.expect(:call_to_audition_id))
+      @questions = @call_to_audition.questions.all
     end
 
     def question_params
-      params.expect(question: [ :key, :text, :question_type, :questionable_id, :questionable_type ])
+      params.require(:question).permit(:key, :text, :question_type, :questionable_id, :questionable_type, question_options_attributes: [ :id, :text, :_destroy ])
     end
 end

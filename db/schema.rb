@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_04_222325) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -161,6 +161,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_222325) do
     t.index ["production_company_id"], name: "index_productions_on_production_company_id"
   end
 
+  create_table "question_options", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_options_on_question_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "text"
     t.string "question_type"
@@ -223,6 +231,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_222325) do
   add_foreign_key "cast_roles", "casts"
   add_foreign_key "casts", "productions"
   add_foreign_key "productions", "production_companies"
+  add_foreign_key "question_options", "questions"
   add_foreign_key "sessions", "users"
   add_foreign_key "show_cast_assignments", "cast_roles"
   add_foreign_key "show_cast_assignments", "people"
