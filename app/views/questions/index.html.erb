@@ -25,6 +25,10 @@
                 Text
               <% elsif question.question_type == "yesno" %>
                 Yes/No
+              <% elsif question.question_type == "multiple-multiple" %>
+                Select Multiple Options
+              <% elsif question.question_type == "multiple-single" %>
+                Select Single Option
               <% end %>
             </p>
           </div>
@@ -58,20 +62,18 @@
       </div>
     <% end %>
 
-    <div class="w-full flex flex-col sm:flex-row w-full sm:gap-6">
-      <div class="my-2 sm:my-5 sm:w-[70%]">
-        <%= form.label :text, "Question Text" %>
-        <%= form.text_field :text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:text].none?, "border-red-400 focus:outline-red-600": @question.errors[:text].any?}] %>
-      </div>
+    <div class="my-2 sm:my-5">
+      <%= form.label :text, "Question Text" %>
+      <%= form.text_field :text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:text].none?, "border-red-400 focus:outline-red-600": @question.errors[:text].any?}] %>
+    </div>
 
-      <div class="my-2 sm:my-5 sm:w-[30%]">
-        <%= form.label :type, "Question Type" %>
-        <%= form.select :question_type, [["Text", "text"], ["Yes/No", "yesno"]], {}, { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}]} %>
-      </div>
+    <div class="my-2 sm:my-5 sm:w-64">
+      <%= form.label :type, "Question Type" %>
+      <%= form.select :question_type, [["Text", "text"], ["Yes/No", "yesno"], ["Select Multiple Options", "multiple-multiple"], ["Select Single Option", "multiple-single"]], {}, { class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @question.errors[:question_type].none?, "border-red-400 focus:outline-red-600": @question.errors[:question_type].any?}]} %>
     </div>
 
     <div class="inline">
-      <%= form.submit class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+      <%= form.submit "Add Question", class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
     </div>
   <% end %>
 
