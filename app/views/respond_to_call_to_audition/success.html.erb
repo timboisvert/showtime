@@ -1,6 +1,6 @@
 <div class="w-full max-w-4xl">
   <h1 class="font-bold text-4xl"><%= @production.name %></h1>
-  <h2 class="font-bold text-2xl pt-5">Audition sign-up form</h2>
+  <h2 class="font-bold text-2xl pt-5">Apply for an audition</h2>
 
   <% if @call_to_audition.header_text.present? %>
     <div class="pt-5">
@@ -16,7 +16,7 @@
       <% if @call_to_audition.success_text.present? %>
         <%= @call_to_audition.success_text %>
       <% else %>
-        We have received your submission and will be in touch with next steps.
+        Your audition request has been received.
       <% end %>
     </span>
   </div>

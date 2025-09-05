@@ -7,9 +7,10 @@ Rails.application.routes.draw do
   get "/notify_me/success", to: "home#notify_me_success", as: "notify_me_success"
 
   # Public-facing routes
-  get "/auditions/:hex_code", to: "respond_to_call_to_audition#new", as: "respond_to_call_to_audition"
-  post "/auditions/:hex_code", to: "respond_to_call_to_audition#create", as: "handle_respond_to_call_to_audition"
-  get "/auditions/:hex_code/success", to: "respond_to_call_to_audition#success", as: "respond_to_call_to_audition_success"
+  get "/audition/:hex_code", to: "respond_to_call_to_audition#new", as: "respond_to_call_to_audition"
+  post "/audition/:hex_code", to: "respond_to_call_to_audition#create", as: "handle_respond_to_call_to_audition"
+  get "/audition/:hex_code/success", to: "respond_to_call_to_audition#success", as: "respond_to_call_to_audition_success"
+  get "/audition/:hex_code/inactive", to: "respond_to_call_to_audition#inactive", as: "respond_to_call_to_audition_inactive"
 
   resource :session
   resources :passwords, param: :token

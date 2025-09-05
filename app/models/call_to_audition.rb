@@ -20,11 +20,21 @@ class CallToAudition < ApplicationRecord
     }
   end
 
+  def timeline_status
+    if self.opens_at > Time.current
+      :upcoming
+    elsif self.closes_at <= Time.current
+      :closed
+    else
+      :open
+    end
+  end
+
   def respond_url
     if Rails.env.development?
       "http://localhost:3000" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
     else
-      "https://TODO" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
+      "https://cocoscout.com/audition" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
     end
   end
 end

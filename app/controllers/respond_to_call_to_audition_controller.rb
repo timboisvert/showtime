@@ -2,6 +2,7 @@ class RespondToCallToAuditionController < ApplicationController
   allow_unauthenticated_access
 
   before_action :get_call_to_audition_and_questions
+  before_action :ensure_call_to_audition_is_open, only: [ :new, :create, :success ]
 
   # Use the public facing layout
   layout "public_facing"
@@ -92,6 +93,9 @@ class RespondToCallToAuditionController < ApplicationController
   def success
   end
 
+  def inactive
+  end
+
   def get_call_to_audition_and_questions
     @call_to_audition = CallToAudition.find_by(hex_code: params[:hex_code].upcase)
     @questions = @call_to_audition.questions
@@ -102,5 +106,11 @@ class RespondToCallToAuditionController < ApplicationController
     end
 
     @production = @call_to_audition.production
+  end
+
+  def ensure_call_to_audition_is_open
+    unless @call_to_audition.timeline_status == :open
+      redirect_to respond_to_call_to_audition_inactive_path(hex_code: @call_to_audition.hex_code), status: :see_other
+    end
   end
 end
