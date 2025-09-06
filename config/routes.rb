@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  # Utility
+  get "/up", to: proc { [ 200, {}, [ "OK" ] ] }
+
   # Landing page
   get "home/index"
   post "/notify_me", to: "home#notify_me", as: "notify_me"
