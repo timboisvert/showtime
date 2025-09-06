@@ -51,7 +51,7 @@ class QuestionsController < ApplicationController
 
     def set_call_to_audition
       @call_to_audition = CallToAudition.find(params.expect(:call_to_audition_id))
-      @questions = @call_to_audition.questions.all
+      @questions = @call_to_audition.questions.order(:created_at) # TODO Change this to be re-arrangeable
     end
 
     def question_params

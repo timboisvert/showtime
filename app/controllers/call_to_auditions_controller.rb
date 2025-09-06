@@ -53,7 +53,7 @@ class CallToAuditionsController < ApplicationController
   def preview
     @audition_request = AuditionRequest.new
     @person = @audition_request.build_person
-    @questions = @call_to_audition.questions
+    @questions = @call_to_audition.questions.order(:created_at) # TODO Change this to be re-arrangeable
     @answers = {}
   end
 

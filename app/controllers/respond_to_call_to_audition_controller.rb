@@ -105,7 +105,7 @@ class RespondToCallToAuditionController < ApplicationController
 
   def get_call_to_audition_and_questions
     @call_to_audition = CallToAudition.find_by(hex_code: params[:hex_code].upcase)
-    @questions = @call_to_audition.questions
+    @questions = @call_to_audition.questions.order(:created_at) if @call_to_audition.present? # TODO Change this to be re-arrangeable
 
     if @call_to_audition.nil?
       redirect_to root_path, alert: "Invalid call to audition"
