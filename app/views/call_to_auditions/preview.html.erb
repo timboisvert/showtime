@@ -116,6 +116,8 @@
 
         <% elsif question.question_type == "multiple-multiple" %>
 
+          <label class="text-sm text-gray-500">(Select all that apply)</label>
+
           <% question.question_options.each do |option| %>
             <div class="px-2 py-1">
               <%= check_box_tag "question[#{question.id}][#{option.text}]", option.text, @answers[question.id]&.include?(option.text),class: "accent-pink-500 mr-1" %>
@@ -124,6 +126,8 @@
           <% end %>
 
         <% elsif question.question_type == "multiple-single" %>
+
+          <label class="text-sm text-gray-500">(Select one)</label>
 
           <% question.question_options.each do |option| %>
             <div class="px-2 py-1">
