@@ -12,7 +12,7 @@ export default class extends Controller {
     const selectedValue = this.selectTarget.value
 
     this.sectionTargets.forEach((section) => {
-      if (section.dataset.toggleValue == selectedValue) {
+      if (selectedValue.includes(section.dataset.toggleValue)) {
         section.classList.remove("hidden")
       } else {
         section.classList.add("hidden")
