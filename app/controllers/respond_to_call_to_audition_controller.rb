@@ -66,13 +66,7 @@ class RespondToCallToAuditionController < ApplicationController
       @answers = {}
       params[:question].each do |id, keyValue|
         answer = @audition_request.answers.find_or_initialize_by(question: Question.find(id))
-
-        if keyValue.is_a?(ActionController::Parameters)
-          answer.value = keyValue.keys.first
-        else
-          answer.value = keyValue
-        end
-
+        answer.value = keyValue
         answer.save!
         @answers[id] = answer.value
       end
