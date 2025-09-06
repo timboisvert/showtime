@@ -19,10 +19,10 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
 
   scope "/app" do
+    get "/", to: "dashboard#index", as: "dashboard"
+
     resources :production_companies
-
     resources :people
-
     resources :productions do
       resources :shows
       resources :call_to_auditions do
@@ -41,7 +41,6 @@ Rails.application.routes.draw do
 
     resources :questions
     resources :auditions
-
     resources :cast_members
     resources :show_cast_assignments
     resources :cast_roles
