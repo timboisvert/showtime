@@ -40,11 +40,7 @@
                 <% if answer.question.question_type == "yesno" %>
                   <%= answer.value.capitalize %>
                 <% elsif answer.question.question_type == "multiple-multiple" %>
-                  <% answer_hash = public_send(answer.value) %>
-                  <% answer_hash.each do |key, value| %>
-                    <div class="text-md"><%= key %></div>
-                  <% end %>
-
+                  <%= answer.value %>
                 <% else %>
                   <%= answer.value %>
                 <% end %>
