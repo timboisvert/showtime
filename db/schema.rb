@@ -11,23 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
-  create_schema "auth"
-  create_schema "extensions"
-  create_schema "graphql"
-  create_schema "graphql_public"
-  create_schema "pgbouncer"
-  create_schema "realtime"
-  create_schema "storage"
-  create_schema "vault"
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "extensions.pg_stat_statements"
-  enable_extension "extensions.pgcrypto"
-  enable_extension "extensions.uuid-ossp"
-  enable_extension "graphql.pg_graphql"
-  enable_extension "pg_catalog.plpgsql"
-  enable_extension "vault.supabase_vault"
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,8 +40,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "answers", force: :cascade do |t|
-    t.bigint "question_id", null: false
-    t.bigint "audition_request_id", null: false
+    t.integer "question_id", null: false
+    t.integer "audition_request_id", null: false
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,8 +50,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "audition_requests", force: :cascade do |t|
-    t.bigint "call_to_audition_id", null: false
-    t.bigint "person_id", null: false
+    t.integer "call_to_audition_id", null: false
+    t.integer "person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
@@ -77,7 +60,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "audition_sessions", force: :cascade do |t|
-    t.bigint "call_to_audition_id", null: false
+    t.integer "call_to_audition_id", null: false
     t.datetime "date_and_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,8 +69,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "auditions", force: :cascade do |t|
-    t.bigint "audition_session_id", null: false
-    t.bigint "audition_request_id", null: false
+    t.integer "audition_session_id", null: false
+    t.integer "audition_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["audition_request_id"], name: "index_auditions_on_audition_request_id"
@@ -95,7 +78,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "call_to_auditions", force: :cascade do |t|
-    t.bigint "production_id", null: false
+    t.integer "production_id", null: false
     t.datetime "opens_at"
     t.datetime "closes_at"
     t.datetime "created_at", null: false
@@ -107,8 +90,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "cast_members", force: :cascade do |t|
-    t.bigint "cast_id", null: false
-    t.bigint "person_id", null: false
+    t.integer "cast_id", null: false
+    t.integer "person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cast_id"], name: "index_cast_members_on_cast_id"
@@ -116,7 +99,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "cast_roles", force: :cascade do |t|
-    t.bigint "cast_id", null: false
+    t.integer "cast_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,7 +107,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "casts", force: :cascade do |t|
-    t.bigint "production_id", null: false
+    t.integer "production_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -157,12 +140,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "production_company_id", null: false
+    t.integer "production_company_id", null: false
     t.index ["production_company_id"], name: "index_productions_on_production_company_id"
   end
 
   create_table "question_options", force: :cascade do |t|
-    t.bigint "question_id", null: false
+    t.integer "question_id", null: false
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -173,14 +156,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
     t.string "text"
     t.string "question_type"
     t.string "questionable_type", null: false
-    t.bigint "questionable_id", null: false
+    t.integer "questionable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["questionable_type", "questionable_id"], name: "index_questions_on_questionable"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "ip_address"
     t.string "user_agent"
     t.datetime "created_at", null: false
@@ -189,9 +172,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
   end
 
   create_table "show_cast_assignments", force: :cascade do |t|
-    t.bigint "show_id", null: false
-    t.bigint "person_id", null: false
-    t.bigint "cast_role_id", null: false
+    t.integer "show_id", null: false
+    t.integer "person_id", null: false
+    t.integer "cast_role_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cast_role_id"], name: "index_show_cast_assignments_on_cast_role_id"
@@ -204,7 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_123752) do
     t.datetime "date_and_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "production_id", null: false
+    t.integer "production_id", null: false
     t.index ["production_id"], name: "index_shows_on_production_id"
   end
 
