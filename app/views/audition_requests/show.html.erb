@@ -27,10 +27,18 @@
             </svg>
           </div>
         <% end %>
+
         <div class="text-4xl font-bold mt-3"><%= @person.stage_name %></div>
-        <div class="text-sm text-gray-400 mb-1">(<%= @person.pronouns %>)</div>
+
+        <% if @person.pronouns.present? %>
+          <div class="text-sm text-gray-400 mb-1">(<%= @person.pronouns %>)</div>
+        <% end %>
+
         <div class="text-md"><%= mail_to @person.email %></div>
-        <div class="text-md"><%= @person.socials %></div>
+
+        <% if @person.socials.present? %>
+          <div class="text-md"><%= @person.socials %></div>
+        <% end %>
 
         <% if @answers.any? %>
           <% @answers.each do |answer| %>
@@ -63,13 +71,17 @@
 
     <div class="grid grid-cols-4 gap-0">
 
-      <div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-        </svg>
-        <p class="text-left text-xs">
-          Previous
-        </p>
+      <div class="mr-auto align-left">
+        <% if @audition_request.previous %>
+          <%= link_to production_call_to_audition_audition_request_path(@production, @call_to_audition, @audition_request.previous) do %>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            <p class="text-left text-xs">
+              Previous
+            </p>
+          <% end %>
+        <% end %>
       </div>
 
       <div class="grid grid-cols-3 gap-2 col-span-2 pt-2 items-center content-center">
@@ -87,13 +99,18 @@
       </div>
 
       <div class="ml-auto align-right">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-        </svg>
-        <p class="text-center text-xs">
-          Next
-        </p>
+        <% if @audition_request.next %>
+          <%= link_to production_call_to_audition_audition_request_path(@production, @call_to_audition, @audition_request.next) do %>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+            <p class="text-center text-xs">
+              Next
+            </p>
+          <% end %>
+        <% end %>
       </div>
+
     </div>
 
 </div>
