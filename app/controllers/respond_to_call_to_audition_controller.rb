@@ -13,13 +13,25 @@ class RespondToCallToAuditionController < ApplicationController
 
       # The user has already responded, so look up their Person object and Audution Request
       @person = Person.find_by(email: cookies.signed["#{@call_to_audition.hex_code}"])
-      @audition_request = @call_to_audition.audition_requests.find_by(person: @person)
 
-      # Get the answers for these questions
-      @answers = {}
-      @questions.each do |question|
-        answer = @audition_request.answers.find_by(question: question)
-        @answers[question.id] = answer.value if answer
+      if @person.nil?
+        cookies.delete "#{@call_to_audition.hex_code}"
+        redirect_to respond_to_call_to_audition_path(hex_code: @call_to_audition.hex_code), status: :see_other
+      else
+        @audition_request = @call_to_audition.audition_requests.find_by(person: @person)
+
+        if @audition_request.nil?
+          cookies.delete "#{@call_to_audition.hex_code}"
+          redirect_to respond_to_call_to_audition_path(hex_code: @call_to_audition.hex_code), status: :see_other
+
+        else
+          # Get the answers for these questions
+          @answers = {}
+          @questions.each do |question|
+            answer = @audition_request.answers.find_by(question: question)
+            @answers[question.id] = answer.value if answer
+          end
+        end
       end
 
     else
@@ -52,11 +64,17 @@ class RespondToCallToAuditionController < ApplicationController
 
       # Update the answers
       @answers = {}
-      params[:question].each do |question|
-        answer = @audition_request.answers.find_or_initialize_by(question: question[:id])
-        answer.value = question[:text]
+      params[:question].each do |id, keyValue|
+        answer = @audition_request.answers.find_or_initialize_by(question: Question.find(id))
+
+        if keyValue.is_a?(ActionController::Parameters)
+          answer.value = keyValue.keys.first
+        else
+          answer.value = keyValue
+        end
+
         answer.save!
-        @answers[question[:id]] = question[:text]
+        @answers[id] = answer.value
       end
 
     else

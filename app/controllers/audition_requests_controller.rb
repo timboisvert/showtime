@@ -57,7 +57,7 @@ class AuditionRequestsController < ApplicationController
 
   def destroy
     @audition_request.destroy!
-    redirect_to audition_requests_path, notice: "Audition request was successfully destroyed.", status: :see_other
+    redirect_to production_call_to_audition_audition_requests_path(@production, @call_to_audition), notice: "Audition request was successfully deleted.", status: :see_other
   end
 
   def set_status

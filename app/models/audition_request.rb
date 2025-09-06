@@ -1,7 +1,7 @@
 class AuditionRequest < ApplicationRecord
   belongs_to :call_to_audition
   belongs_to :person
-  has_many :answers
+  has_many :answers, dependent: :destroy
 
   enum :status, {
     unreviewed: 0,
