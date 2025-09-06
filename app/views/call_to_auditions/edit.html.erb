@@ -40,7 +40,7 @@
     </div>
     <div class="my-5">
       <%= form.label :header_text, "Header Text:" %>
-      <%= form.text_area :header_text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @call_to_audition.errors[:header_text].none?, "border-red-400 focus:outline-red-600": @call_to_audition.errors[:header_text].any?}] %>
+      <%= form.rich_text_area :header_text, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @call_to_audition.errors[:header_text].none?, "border-red-400 focus:outline-red-600": @call_to_audition.errors[:header_text].any?}] %>
     </div>
     <div class="my-5">
       <%= form.label :header_text, "Success Text:" %>
