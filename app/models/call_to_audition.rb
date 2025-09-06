@@ -5,6 +5,7 @@ class CallToAudition < ApplicationRecord
   has_many :questions, as: :questionable, dependent: :destroy
 
   has_rich_text :header_text
+  has_rich_text :success_text
 
   validates :opens_at, presence: true
   validates :closes_at, presence: true
