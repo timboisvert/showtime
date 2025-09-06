@@ -98,6 +98,9 @@ class RespondToCallToAuditionController < ApplicationController
   end
 
   def inactive
+    if @call_to_audition.timeline_status == :open
+      redirect_to respond_to_call_to_audition_path(hex_code: @call_to_audition.hex_code), status: :see_other
+    end
   end
 
   def get_call_to_audition_and_questions

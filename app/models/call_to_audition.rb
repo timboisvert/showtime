@@ -34,7 +34,7 @@ class CallToAudition < ApplicationRecord
     if Rails.env.development?
       "http://localhost:3000" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
     else
-      "https://cocoscout.com/audition" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
+      "https://www.cocoscout.com" + Rails.application.routes.url_helpers.respond_to_call_to_audition_path(self.hex_code)
     end
   end
 end
