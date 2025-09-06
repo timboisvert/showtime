@@ -36,8 +36,8 @@ Rails.application.configure do
   #   address:              "smtp.gmail.com",
   #   port:                 587,
   #   domain:               "cocoscout.com", # Your domain
-  #   user_name:            ENV["cocorunseverything"], # Use environment variables for credentials
-  #   password:             ENV["vGFujAEeNL2yrbkBWx8m"],
+  #   user_name:            ENV[""], # Use environment variables for credentials
+  #   password:             ENV[""],
   #   authentication:       "plain",
   #   enable_starttls_auto: true
   # }
