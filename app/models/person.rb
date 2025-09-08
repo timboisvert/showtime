@@ -1,10 +1,29 @@
 class Person < ApplicationRecord
-  has_one_attached :resume, dependent: :purge_later
-  has_one_attached :headshot, dependent: :purge_later
   has_many :audition_requests, dependent: :destroy
 
+  has_one_attached :resume, dependent: :purge_later
+
+  has_one_attached :headshot, dependent: :purge_later do |attachable|
+    attachable.variant :thumb, resize_to_limit: [ 100, 100 ], preprocessed: true
+  end
+
+  # Validations
   validates :stage_name, presence: true
   validates :email, presence: true
-  validates :resume, content_type: %w[application/pdf image/jpeg image/png]
-  validates :headshot, content_type: %w[image/jpeg image/png]
+  validate :resume_content_type
+  validate :headshot_content_type
+
+  private
+
+  def resume_content_type
+    if resume.attached? && !resume.content_type.in?(%w[application/pdf image/jpeg image/png])
+      errors.add(:resume, "Resume must be a PDF, JPEG, or PNG file")
+    end
+  end
+
+  def headshot_content_type
+    if headshot.attached? && !headshot.content_type.in?(%w[image/jpeg image/png])
+      errors.add(:headshot, "Headshot must be a JPEG or PNG file")
+    end
+  end
 end

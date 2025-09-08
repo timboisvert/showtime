@@ -40,12 +40,23 @@
                 label_text = "Resume/CV"
             end
             %>
+
             <%= person_form.label :resume, label_text %>
+
+            <% if @person.errors[:resume].any? %>
+                <div class="text-sm text-pink-600">
+                    <%= @person.errors[:resume].join(", ") %>
+                </div>
+            <% else %>
+                <span class="text-sm text-gray-500"> (PDF, JPG, or PNG)</span>
+            <% end %>
+
             <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+                <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
             </div>
         </div>
         <div class="my-5 md:my-0 md:ml-5 md:w-half">
+
             <%
             if @person.headshot.attached?
                 label_text = "Replace Headshot"
@@ -53,9 +64,19 @@
                 label_text = "Headshot"
             end
             %>
+
             <%= person_form.label :headshot, label_text %>
+
+            <% if @person.errors[:headshot].any? %>
+                <div class="text-sm text-pink-600">
+                    <%= @person.errors[:headshot].join(", ") %>
+                </div>
+            <% else %>
+                <span class="text-sm text-gray-500"> (JPG or PNG)</span>
+            <% end %>
+
             <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+                <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
             </div>
         </div>
     </div>
