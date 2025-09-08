@@ -1,0 +1,31 @@
+<div class="p-5 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+
+    <% if person.headshot.attached? %>
+        <%= image_tag url_for(person.headshot), class: "relative inline-block max-w-64 rounded-lg" %>
+    <% end %>
+
+    <div class="text-4xl font-bold mt-3"><%= person.stage_name %></div>
+
+    <% if person.pronouns.present? %>
+    <div>
+        Pronouns: <%= person.pronouns %>
+    </div>
+    <% end %>
+
+    <div>
+    Email: <%= mail_to person.email %>
+    </div>
+
+    <% if person.socials.present? %>
+    <div>
+        Socials: <%= person.socials %>
+    </div>
+    <% end %>
+
+    <div>
+    <%= link_to "Edit this Person",
+        edit_person_path(person),
+        class: "mt-2 bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded transition-colors cursor-pointer inline-block" %>
+    </div>
+
+</div>

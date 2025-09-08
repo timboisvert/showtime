@@ -1,6 +1,10 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update destroy ]
 
+  # Use the wide layout for the show page so we can maximize real estate
+  layout "wide", only: %i[ show ]
+
+
   # GET /people
   def index
     @people = Person.all

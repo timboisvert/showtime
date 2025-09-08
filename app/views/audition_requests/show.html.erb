@@ -19,43 +19,7 @@
       </div>
       <div class="w-full sm:w-[40%] flex flex-col">
 
-        <div class="p-5 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-
-          <% if @person.headshot.attached? %>
-            <%= image_tag url_for(@person.headshot), class: "relative inline-block max-w-64 rounded-lg" %>
-          <% else %>
-            <div class="relative inline-block h-12 w-12 rounded-full bg-gray-200">
-              <svg class="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-              </svg>
-            </div>
-          <% end %>
-
-          <div class="text-4xl font-bold mt-3"><%= @person.stage_name %></div>
-
-          <% if @person.pronouns.present? %>
-            <div>
-              Pronouns: <%= @person.pronouns %>
-            </div>
-          <% end %>
-
-          <div>
-            Email: <%= mail_to @person.email %>
-          </div>
-
-          <% if @person.socials.present? %>
-            <div>
-              Socials: <%= @person.socials %>
-            </div>
-          <% end %>
-
-          <div>
-            <%= link_to "Edit this Person",
-              edit_person_path(@person),
-              class: "mt-2 bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded transition-colors cursor-pointer inline-block" %>
-          </div>
-
-        </div>
+        <%= render "shared/person_card", person: @person %>
 
         <% if @answers.any? %>
           <% @answers.each do |answer| %>
