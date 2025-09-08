@@ -1,6 +1,8 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update destroy ]
 
+  allow_unauthenticated_access only: %i[ lookup ]
+
   # Use the wide layout for the show page so we can maximize real estate
   layout "wide", only: %i[ show ]
 
@@ -47,6 +49,13 @@ class PeopleController < ApplicationController
   def destroy
     @person.destroy!
     redirect_to people_path, notice: "Person was successfully destroyed.", status: :see_other
+  end
+
+  # GET /users/lookup.json?email=foo@example.com
+  def lookup
+    email = params[:email].to_s.strip.downcase
+    exists = Person.exists?(email: email)
+    render json: { exists: exists }
   end
 
   private

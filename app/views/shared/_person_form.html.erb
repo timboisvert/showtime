@@ -1,60 +1,62 @@
 <div class="my-5">
+
     <% if @person.errors[:email].none? %>
         <%= person_form.label :email %>
     <% else %>
         <%= person_form.label :email, "Email is required", class: "text-pink-600" %>
     <% end %>
 
-    <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:email].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:email].any?}] %>
+    <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-500": @person.errors[:email].none?, "border-pink-500 focus:outline-pink-500": @person.errors[:email].any?}]
+    %>
+
+    <div class="my-5">
+        <% if @person.errors[:stage_name].none? %>
+            <%= person_form.label :stage_name, "Stage Name" %>
+        <% else %>
+            <%= person_form.label :stage_name, "Stage Name is required", class: "text-pink-600"  %>
+        <% end %>
+     <%= person_form.text_field :stage_name, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-500": @person.errors[:stage_name].none?, "border-pink-500 focus:outline-pink-500": @person.errors[:stage_name].any?}] %>
     </div>
 
     <div class="my-5">
-    <% if @person.errors[:stage_name].none? %>
-        <%= person_form.label :stage_name, "Stage Name" %>
-    <% else %>
-        <%= person_form.label :stage_name, "Stage Name is required", class: "text-pink-600"  %>
-    <% end %>
-    <%= person_form.text_field :stage_name, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:stage_name].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:stage_name].any?}] %>
+        <%= person_form.label :pronouns %>
+        <span class="text-sm text-gray-500"> (optional)</span>
+        <%= person_form.text_field :pronouns, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-500": @person.errors[:pronouns].none?, "border-pink-500 focus:outline-pink-500": @person.errors[:pronouns].any?}] %>
     </div>
 
     <div class="my-5">
-    <%= person_form.label :pronouns %>
-    <span class="text-sm text-gray-500"> (optional)</span>
-    <%= person_form.text_field :pronouns, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:pronouns].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:pronouns].any?}] %>
-    </div>
-
-    <div class="my-5">
-    <%= person_form.label :socials %>
-    <span class="text-sm text-gray-500"> (optional)</span>
-    <%= person_form.text_field :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:socials].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:socials].any?}] %>
+        <%= person_form.label :socials %>
+        <span class="text-sm text-gray-500"> (optional)</span>
+        <%= person_form.text_field :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-500": @person.errors[:socials].none?, "border-pink-500 focus:outline-pink-500": @person.errors[:socials].any?}] %>
     </div>
 
     <div class="my-5 md:flex md:w-full">
-    <div class="md:mr-5 md:w-half">
+        <div class="md:mr-5 md:w-half">
 
-        <%
-        if @person.resume.attached?
-            label_text = "Replace Resume/CV"
-        else
-            label_text = "Resume/CV"
-        end
-        %>
-        <%= person_form.label :resume, label_text %>
-        <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-        <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+            <%
+            if @person.resume.attached?
+                label_text = "Replace Resume/CV"
+            else
+                label_text = "Resume/CV"
+            end
+            %>
+            <%= person_form.label :resume, label_text %>
+            <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
+            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+            </div>
         </div>
-    </div>
-    <div class="my-5 md:my-0 md:ml-5 md:w-half">
-        <%
-        if @person.headshot.attached?
-            label_text = "Replace Headshot"
-        else
-            label_text = "Headshot"
-        end
-        %>
-        <%= person_form.label :headshot, label_text %>
-        <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-        <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+        <div class="my-5 md:my-0 md:ml-5 md:w-half">
+            <%
+            if @person.headshot.attached?
+                label_text = "Replace Headshot"
+            else
+                label_text = "Headshot"
+            end
+            %>
+            <%= person_form.label :headshot, label_text %>
+            <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
+            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
+            </div>
         </div>
     </div>
 </div>

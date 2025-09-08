@@ -89,8 +89,46 @@ class RespondToCallToAuditionController < ApplicationController
     end
 
     if @audition_request.valid? && @person.valid?
+
+      # Check to ensure this is a unique person for this call to audition
+      # If it's not unique, update the existing person
+      existing_person = Person.find_by(email: @person.email)
+      if existing_person
+        existing_person.assign_attributes(@person.attributes.except("id", "created_at", "updated_at"))
+        @person = existing_person
+
+        # Add the headshot and resume if they've been passed in
+        @person.headshot = person_params[:person][:headshot] if person_params[:person][:headshot].present?
+        @person.resume = person_params[:person][:resume] if person_params[:person][:resume].present?
+
+        # Check to see if this person has already submitted an audition request for this call to audition
+        existing_audition_request = @call_to_audition.audition_requests.find_by(person: @person)
+        if existing_audition_request
+
+          # Update the existing audition request with any new details
+          existing_audition_request.assign_attributes(@audition_request.attributes.except("id", "created_at", "updated_at"))
+          @audition_request = existing_audition_request
+
+          # Put the new answers onto the existing audition request
+          new_answers = []
+          @answers.each do |answer|
+            new_answer = @audition_request.answers.build
+            new_answer.audition_request = @audition_request
+            new_answer.question = Question.find(answer.first)
+            new_answer.value = answer.last
+            new_answers << new_answer
+          end
+          @audition_request.answers = new_answers
+        end
+
+        # Make sure audition request points to the proper user if any changes have been made
+        @audition_request.person = @person
+
+      end
+
       @person.save!
       @audition_request.save!
+
       cookies.signed["#{@call_to_audition.hex_code}"] = { value: @person.email, expires: 5.years.from_now }
       redirect_to respond_to_call_to_audition_success_path(hex_code: @call_to_audition.hex_code), status: :see_other
     else

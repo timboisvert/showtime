@@ -9,6 +9,14 @@
   <h1 class="font-bold text-4xl"><%= @production.name %></h1>
   <h2 class="font-bold text-2xl pt-5">Apply for an audition</h2>
 
+  <% if cookies.signed["#{@call_to_audition.hex_code}"].present? %>
+    <div class="p-3 bg-pink-50 border border-pink-100 text-md border-pink-400 rounded-lg mt-5">
+      <div class="text-xl font-bold">Welcome back!</div>
+      You've already submitted an application to audition for this production. If you would like to update your application,
+      please use the form below.
+    </div>
+  <% end %>
+
   <% if @call_to_audition.header_text.present? %>
     <div class="pt-5">
       <%= @call_to_audition.header_text %>
@@ -85,9 +93,9 @@
   <div class="inline pb-5">
     <%
       if @call_to_audition.id?
-        submit_text = "Submit"
+        submit_text = "Update Application"
       else
-        submit_text = "Update"
+        submit_text = "Submit Application"
       end
     %>
     <%= form.submit submit_text, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800inline-block font-medium cursor-pointer" %>
