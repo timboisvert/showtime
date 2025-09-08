@@ -22,9 +22,10 @@ class AuditionRequestsController < ApplicationController
       @audition_request.undecided!
     end
 
+    # Get the person
     @person = @audition_request.person
-    @previous_audition_requests = @person.audition_requests.where.not(id: @audition_request.id).includes(call_to_audition: :production).order("created_at DESC")
 
+    # Get the answers
     @answers = @audition_request.answers.includes(:question)
   end
 

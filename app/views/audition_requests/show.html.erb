@@ -48,7 +48,9 @@
                 <% if answer.question.question_type == "yesno" %>
                   <%= answer.value.capitalize %>
                 <% elsif answer.question.question_type == "multiple-multiple" %>
-                  <%= answer.value %>
+                  <% answer.value_as_array.each do |value| %>
+                    <div><%= value %></div>
+                  <% end %>
                 <% else %>
                   <%= answer.value %>
                 <% end %>
