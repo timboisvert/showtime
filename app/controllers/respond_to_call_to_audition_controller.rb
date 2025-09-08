@@ -23,14 +23,13 @@ class RespondToCallToAuditionController < ApplicationController
         if @audition_request.nil?
           cookies.delete "#{@call_to_audition.hex_code}"
           redirect_to respond_to_call_to_audition_path(hex_code: @call_to_audition.hex_code), status: :see_other
-
         else
-          # Get the answers for these questions
           @answers = {}
           @questions.each do |question|
             answer = @audition_request.answers.find_by(question: question)
-            @answers[question.id] = answer.value if answer
+            @answers["#{question.id}"] = answer.value if answer
           end
+
         end
       end
 
@@ -42,7 +41,7 @@ class RespondToCallToAuditionController < ApplicationController
       # Empty answers hash
       @answers = {}
       @questions.each do |question|
-        @answers[question.id] = ""
+        @answers["#{question.id}"] = ""
       end
 
     end
@@ -68,7 +67,7 @@ class RespondToCallToAuditionController < ApplicationController
         answer = @audition_request.answers.find_or_initialize_by(question: Question.find(id))
         answer.value = keyValue
         answer.save!
-        @answers[id] = answer.value
+        @answers["#{id}"] = answer.value
       end
 
     else
@@ -84,25 +83,18 @@ class RespondToCallToAuditionController < ApplicationController
         answer = @audition_request.answers.build
         answer.question = Question.find question.first
         answer.value = question.last
-        @answers[answer.question.id] = answer.value
+        @answers["#{answer.question.id}"] = answer.value
       end
 
     end
 
-    # Assuming they're valid...
     if @audition_request.valid? && @person.valid?
-
-      # ...save them both
       @person.save!
       @audition_request.save!
-
-      # And set a cookie so we know this user has already responded
       cookies.signed["#{@call_to_audition.hex_code}"] = { value: @person.email, expires: 5.years.from_now }
-
-      # Then send them on to the success page
       redirect_to respond_to_call_to_audition_success_path(hex_code: @call_to_audition.hex_code), status: :see_other
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 

@@ -30,67 +30,7 @@
     <% end %>
 
     <%= form.fields_for @person do |person_form| %>
-
-      <div class="my-5">
-        <% if @person.errors[:email].none? %>
-          <%= person_form.label :email %>
-        <% else %>
-          <%= person_form.label :email, "Email is required", class: "text-pink-600" %>
-        <% end %>
-
-        <%= person_form.text_field :email, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:email].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:email].any?}] %>
-      </div>
-
-      <div class="my-5">
-        <% if @person.errors[:email].none? %>
-          <%= person_form.label :stage_name, "Stage Name" %>
-        <% else %>
-          <%= person_form.label :stage_name, "Stage Name is required", class: "text-pink-600"  %>
-        <% end %>
-        <%= person_form.text_field :stage_name, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:stage_name].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:stage_name].any?}] %>
-      </div>
-
-      <div class="my-5">
-        <%= person_form.label :pronouns %>
-        <span class="text-sm text-gray-500"> (optional)</span>
-        <%= person_form.text_field :pronouns, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:pronouns].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:pronouns].any?}] %>
-      </div>
-
-      <div class="my-5">
-        <%= person_form.label :socials %>
-        <span class="text-sm text-gray-500"> (optional)</span>
-        <%= person_form.text_field :socials, class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:socials].none?, "border-pink-500 focus:outline-pink-600": @person.errors[:socials].any?}] %>
-      </div>
-
-      <div class="my-5 md:flex md:w-full">
-        <div class="md:mr-5 md:w-half">
-
-          <%
-            if @person.resume.attached?
-              label_text = "Replace Resume/CV"
-            else
-              label_text = "Resume/CV"
-            end
-          %>
-          <%= person_form.label :resume, label_text %>
-          <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :resume, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
-          </div>
-        </div>
-        <div class="my-5 md:my-0 md:ml-5 md:w-half">
-          <%
-            if @person.headshot.attached?
-              label_text = "Replace Headshot"
-            else
-              label_text = "Headshot"
-            end
-          %>
-          <%= person_form.label :headshot, label_text %>
-          <div class="block shadow-sm rounded-lg border px-3 py-2 mt-2 w-half border-gray-400">
-            <%= person_form.file_field :headshot, class: "text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-white file:bg-pink-500 hover:file:bg-pink-600" %>
-          </div>
-        </div>
-      </div>
+      <%= render "shared/person_form", person_form: person_form %>
     <% end %>
 
   <% if @questions.any? %>
@@ -100,16 +40,16 @@
 
         <% if question.question_type == "text" %>
 
-          <%= text_area_tag "question[#{question.id}]", @answers[question.id], class: ["block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-pink-600": @person.errors[:socials].none?, "border-pink-400 focus:outline-pink-600": @person.errors[:socials].any?}] %>
+          <%= text_area_tag "question[#{question.id}]", @answers["#{question.id}"], class: "block shadow-sm rounded-lg border px-3 py-2 mt-2 w-full" %>
 
         <% elsif question.question_type == "yesno" %>
 
           <div class="px-2 py-1">
-            <%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers[question.id] == "yes" || @answers[question.id].blank?), class: "accent-pink-500 mr-1" %>
+            <%= radio_button_tag "question[#{question.id}]", "yes", checked: (@answers["#{question.id}"] == "yes" || @answers["#{question.id}"].blank?), class: "accent-pink-500 mr-1" %>
             <%= label_tag "question[#{question.id}][yes]", "Yes" %>
           </div>
           <div class="px-2 py-1">
-            <%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers[question.id] == "no"), class: "accent-pink-500 mr-1" %>
+            <%= radio_button_tag "question[#{question.id}]", "no", checked: (@answers["#{question.id}"] == "no"), class: "accent-pink-500 mr-1" %>
             <%= label_tag "question[#{question.id}][no]", "No" %>
           </div>
 
@@ -118,8 +58,9 @@
           <label class="text-sm text-gray-500">(Select all that apply)</label>
 
           <% question.question_options.each do |option| %>
+
             <div class="px-2 py-1">
-              <%= check_box_tag "question[#{question.id}][#{option.text}]", option.text, @answers[question.id]&.include?(option.text),class: "accent-pink-500 mr-1" %>
+              <%= check_box_tag "question[#{question.id}][#{option.text}]", option.text, @answers["#{question.id}"]&.include?(option.text),class: "accent-pink-500 mr-1" %>
               <%= label_tag "question[#{question.id}][#{option.text}]", option.text %>
             </div>
           <% end %>
@@ -130,7 +71,7 @@
 
           <% question.question_options.each do |option| %>
             <div class="px-2 py-1">
-              <%= radio_button_tag "question[#{question.id}]", option.text, @answers[question.id] == option.text, class: "accent-pink-500 mr-1" %>
+              <%= radio_button_tag "question[#{question.id}]", option.text, @answers["#{question.id}"] == option.text, class: "accent-pink-500 mr-1" %>
               <%= label_tag "question[#{question.id}][#{option.text}]", option.text %>
             </div>
           <% end %>
