@@ -21,8 +21,4 @@ class HomeController < ApplicationController
 
   def notify_me_success
   end
-
-  def catch_all
-    render plain: "Not Found", status: :not_found
-  end
 end
