@@ -31,7 +31,7 @@
               </div>
               <div>
                 <h6 class="font-medium text-xl">
-                  <%= person.stage_name %>
+                  <%= truncate(person.stage_name, length: 50, omission: "...") %>
                   <% if person.pronouns.present? %>
                     <span class="text-slate-500 text-sm">(<%= person.pronouns %>)</span>
                   <% end %>
