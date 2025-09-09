@@ -5,4 +5,12 @@ class AuditionSession < ApplicationRecord
   def display_name
     "#{production.name} - #{date_and_time.strftime("%-m/%-d/%Y %l:%M %p")}"
   end
+
+  def is_full?
+    (maximum_auditionees && (auditions.count == maximum_auditionees))
+  end
+
+  def is_overbooked?
+    (maximum_auditionees && (auditions.count > maximum_auditionees))
+  end
 end

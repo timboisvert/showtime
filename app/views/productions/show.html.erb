@@ -124,9 +124,31 @@
           <div class="grid grid-cols-1 gap-2 mb-4">
             <%= link_to production_audition_sessions_path(@production) do %>
               <% @production.audition_sessions.each do |session| %>
-                <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-                  <p class="text-md col-span-2"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
-                  <p class="font-bold text-2xl text-right"><%= "x/#{session.maximum_auditionees}" %></p>
+                <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+                  <div class="flex flex-row items-center justify-between mb-2">
+                    <p class="text-md font-semibold"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
+                  </div>
+                  <% if session.auditions.any? %>
+                    <div class="grid grid-cols-8 lg:grid-cols-12 gap-1 w-full">
+                      <% session.auditions.each do |audition| %>
+                        <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+                          <%= image_tag audition.person.headshot.variant(:thumb), alt: audition.person.stage_name, class: "w-10 h-10 rounded-lg object-cover mb-1" if audition.person.headshot.present? %>
+                          <span class="font-medium text-xs text-center"><%= audition.person.stage_name.truncate(20, omission: '...') %></span>
+                        </div>
+                      <% end %>
+
+                      <% if (!session.is_full? && !session.is_overbooked?) %>
+                        <span class="inline-flex items-center text-xs text-gray-400 h-full text-center ml-2">
+                            <div class="flex flex-col items-center justify-center">
+                                Add up to<br><%= session.maximum_auditionees - session.auditions.count %> more
+                            </div>
+                        </span>
+                      <% end %>
+
+                    </div>
+                  <% else %>
+                    <p class="text-gray-400 font-semibold text-xs">No auditions scheduled for this session.</p>
+                  <% end %>
                 </div>
               <% end %>
             <% end %>

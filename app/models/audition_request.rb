@@ -1,3 +1,4 @@
+
 class AuditionRequest < ApplicationRecord
   belongs_to :call_to_audition
   belongs_to :person
@@ -20,5 +21,11 @@ class AuditionRequest < ApplicationRecord
 
   def previous
     call_to_audition.audition_requests.where("created_at < ?", created_at).order(created_at: :desc).first
+  end
+
+  def scheduled_in_any?(audition_sessions)
+    Audition.joins(:audition_sessions)
+      .where(audition_request_id: id, audition_sessions: { id: audition_sessions.map(&:id) })
+      .exists?
   end
 end
