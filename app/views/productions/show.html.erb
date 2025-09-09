@@ -67,11 +67,6 @@
 
           </p>
 
-          <%# Future functionality -%>
-          <%# <div> %>
-            <%#= render partial: "shared/link_button", locals: {text: "End Early", path: production_call_to_audition_end_early_path(@production, call_to_audition)} %>
-          <%# </div> %>
-
           <h2 class="font-bold text-lg col-span-1 mb-2 border-t-2 border-gray-200 pt-3 mt-5">Sign-up Form</h2>
           <div>
             <div class="w-full flex items-center mx-auto" data-controller="clipboard">
@@ -124,20 +119,15 @@
         <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <h2 class="font-bold text-lg col-span-1 mb-2">Audition Sessions</h2>
           <div class="grid grid-cols-1 gap-2 mb-4">
-            <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-              <p class="text-md col-span-2">9/18/2025 at 6:00 PM</p>
-              <p class="font-bold text-2xl text-right">1/7</p>
-            </div>
-            <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-              <p class="text-md col-span-2">9/18/2025 at 7:00 PM</p>
-              <p class="font-bold text-2xl text-right">2/7</p>
-            </div>
-            <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-              <p class="text-md col-span-2">9/18/2025 at 8:00 PM</p>
-              <p class="font-bold text-2xl text-right">0/7</p>
-            </div>
+
+            <% @production.audition_sessions.each do |session| %>
+              <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
+                <p class="text-md col-span-2"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
+                <p class="font-bold text-2xl text-right"><%= "x/#{session.maximum_auditionees}" %></p>
+              </div>
+            <% end %>
           </div>
-          <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_call_to_audition_audition_session_path(@production, call_to_audition)} %>
+          <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
         </div>
 
       </div>

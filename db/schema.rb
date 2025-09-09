@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_06_051613) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_133133) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -70,21 +70,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_051613) do
   end
 
   create_table "audition_sessions", force: :cascade do |t|
-    t.integer "call_to_audition_id", null: false
-    t.datetime "date_and_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "production_id", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.integer "maximum_auditionees"
-    t.index ["call_to_audition_id"], name: "index_audition_sessions_on_call_to_audition_id"
-  end
-
-  create_table "auditions", force: :cascade do |t|
-    t.integer "audition_session_id", null: false
-    t.integer "audition_request_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["audition_request_id"], name: "index_auditions_on_audition_request_id"
-    t.index ["audition_session_id"], name: "index_auditions_on_audition_session_id"
+    t.index ["production_id"], name: "index_audition_sessions_on_production_id"
   end
 
   create_table "call_to_auditions", force: :cascade do |t|
@@ -215,9 +207,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_051613) do
   add_foreign_key "answers", "questions"
   add_foreign_key "audition_requests", "call_to_auditions"
   add_foreign_key "audition_requests", "people"
-  add_foreign_key "audition_sessions", "call_to_auditions"
-  add_foreign_key "auditions", "audition_requests"
-  add_foreign_key "auditions", "audition_sessions"
+  add_foreign_key "audition_sessions", "productions"
   add_foreign_key "call_to_auditions", "productions"
   add_foreign_key "cast_members", "casts"
   add_foreign_key "cast_members", "people"

@@ -1,9 +1,10 @@
 class AuditionSessionsController < ApplicationController
   before_action :set_audition_session, only: %i[ show edit update destroy ]
+  before_action :set_production
 
   # GET /audition_sessions
   def index
-    @audition_sessions = AuditionSession.all
+    @audition_sessions = @production.audition_sessions
   end
 
   # GET /audition_sessions/1
@@ -13,6 +14,14 @@ class AuditionSessionsController < ApplicationController
   # GET /audition_sessions/new
   def new
     @audition_session = AuditionSession.new
+
+    if params[:duplicate].present?
+      original = AuditionSession.find_by(id: params[:duplicate], production: @production)
+      if original.present?
+        @audition_session.start_at = original.start_at
+        @audition_session.maximum_auditionees = original.maximum_auditionees
+      end
+    end
   end
 
   # GET /audition_sessions/1/edit
@@ -22,9 +31,10 @@ class AuditionSessionsController < ApplicationController
   # POST /audition_sessions
   def create
     @audition_session = AuditionSession.new(audition_session_params)
+    @audition_session.production = @production
 
     if @audition_session.save
-      redirect_to @audition_session, notice: "Audition session was successfully created."
+      redirect_to production_audition_sessions_path(@production), notice: "Audition session was successfully scheduled."
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +43,7 @@ class AuditionSessionsController < ApplicationController
   # PATCH/PUT /audition_sessions/1
   def update
     if @audition_session.update(audition_session_params)
-      redirect_to @audition_session, notice: "Audition session was successfully updated.", status: :see_other
+      redirect_to production_audition_sessions_path(@production), notice: "Audition session was successfully rescheduled.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,7 +52,7 @@ class AuditionSessionsController < ApplicationController
   # DELETE /audition_sessions/1
   def destroy
     @audition_session.destroy!
-    redirect_to audition_sessions_path, notice: "Audition session was successfully destroyed.", status: :see_other
+    redirect_to production_audition_sessions_path(@production), notice: "Audition session was successfully canceled.", status: :see_other
   end
 
   private
@@ -51,8 +61,12 @@ class AuditionSessionsController < ApplicationController
       @audition_session = AuditionSession.find(params.expect(:id))
     end
 
+    def set_production
+      @production = Production.find(params.expect(:production_id))
+    end
+
     # Only allow a list of trusted parameters through.
     def audition_session_params
-      params.expect(audition_session: [ :call_to_audition_id, :date_and_time, :maximum_auditionees ])
+      params.expect(audition_session: [ :production_id, :start_at, :end_at, :maximum_auditionees ])
     end
 end
