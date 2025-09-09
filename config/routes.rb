@@ -45,4 +45,6 @@ Rails.application.routes.draw do
     resources :cast_roles
     resources :casts
   end
+
+  match "*path", to: "home#catch_all", via: :all
 end
