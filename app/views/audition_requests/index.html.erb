@@ -35,7 +35,7 @@
             <div class="grid place-items-left grid-cols-[auto_1fr] gap-4 mr-auto">
               <div class="grid place-items-center">
                 <% if audition_request.person.headshot.attached? %>
-                  <%= image_tag url_for(audition_request.person.headshot), class: "relative inline-block h-12 w-12 !rounded-full  object-cover object-center" %>
+                  <%= image_tag url_for(audition_request.person.headshot.variant(:thumb)), class: "relative inline-block h-12 w-12 !rounded-lg  object-cover object-center" %>
                 <% else %>
                   <div class="relative inline-block h-12 w-12 rounded-full bg-gray-200">
                     <svg class="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
