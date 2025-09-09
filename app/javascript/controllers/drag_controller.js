@@ -1,4 +1,3 @@
-// app/javascript/controllers/drag_controller.js
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
@@ -11,7 +10,6 @@ export default class extends Controller {
   dragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.dataset.id); // Store item ID
     event.dataTransfer.effectAllowed = "move";
-    console.log("drag start")
   }
 
   dragOver(event) {
@@ -60,5 +58,36 @@ export default class extends Controller {
   updateOrder(draggedId, droppedOnId) {
     // Implement AJAX request to update the order on the server
     // e.g., using fetch or @rails/request.js
+  }
+
+  removeAudition(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const auditionId = event.currentTarget.dataset.auditionId;
+    const sessionId = event.currentTarget.dataset.sessionId;
+    fetch("/app/auditions/remove_from_session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name=csrf-token]').content
+      },
+      body: JSON.stringify({
+        audition_id: auditionId,
+        audition_session_id: sessionId
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Update the left list
+        const leftList = document.querySelector("#left_panel");
+        if (leftList && data.left_list_html) {
+          leftList.outerHTML = data.left_list_html;
+        }
+        // Update the dropzone
+        const dropzone = document.querySelector(`[data-drag-target='dropzone'][data-id='${sessionId}']`);
+        if (dropzone && data.dropzone_html) {
+          dropzone.outerHTML = data.dropzone_html;
+        }
+      });
   }
 }

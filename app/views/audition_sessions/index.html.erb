@@ -23,10 +23,10 @@
         <%= render partial: "audition_sessions/left_list", locals: { production: @production, filter: (params[:filter] || session[:audition_request_filter] || "to_be_scheduled") } %>
       </div>
 
-      <div class="col-span-3" id="audition_sessions">
+      <div class="col-span-3 id="audition_sessions">
         <% if @audition_sessions.any? %>
           <% @audition_sessions.each do |audition_session| %>
-            <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
+            <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-4">
               <div class="text-md col-span-1 pr-10">
                 <p class="text-lg font-bold"><%= audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
                 <div class="">

@@ -62,7 +62,16 @@ class AuditionsController < ApplicationController
     render json: { left_list_html: left_list_html, dropzone_html: dropzone_html }
   end
 
+  def remove_from_session
+    audition = Audition.find(params[:audition_id])
+    audition_session = AuditionSession.find(params[:audition_session_id])
+    audition_session.auditions.delete(audition)
 
+    left_list_html = render_to_string(partial: "audition_sessions/left_list", locals: { production: audition_session.production, filter: cookies[:audition_request_filter] })
+    dropzone_html = render_to_string(partial: "audition_sessions/dropzone", locals: { audition_session: audition_session })
+
+    render json: { left_list_html: left_list_html, dropzone_html: dropzone_html }
+  end
 
 
   private

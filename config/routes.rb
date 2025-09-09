@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     resources :auditions do
       collection do
         post :add_to_session
+        post :remove_from_session
       end
     end
     resources :cast_members

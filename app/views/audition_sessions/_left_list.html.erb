@@ -1,4 +1,4 @@
-<div class="bg-gray-50 p-4 rounded-lg border border-gray-200" id="left_panel">
+<div class="p-4 rounded-lg border border-gray-200" id="left_panel">
 
     <h2 class="font-semibold text-lg mb-3">Audition Requests</h2>
 
@@ -21,17 +21,17 @@
     </div>
 
     <% if production.audition_requests(filter: filter || "to_be_scheduled").any? %>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             <% production.audition_requests(filter: filter || "to_be_scheduled").each do |audition_request| %>
 
                 <% scheduled = audition_request.scheduled_in_any?(production.audition_sessions) %>
 
                 <div
-                    class="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all cursor-grab"
+                    class="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all cursor-grab bg-[#f9f9f7]"
                     data-drag-target="item" data-id="<%= audition_request.id %>" draggable="true" data-action="dragstart->drag#dragStart"
                 >
                     <% if audition_request.person.headshot.present? %>
-                      <%= image_tag audition_request.person.headshot.variant(:thumb), alt: audition_request.person.stage_name, class: "w-10 h-10 rounded-lg object-cover mb-1 #{'opacity-40' if scheduled}" %>
+                      <%= image_tag audition_request.person.headshot.variant(:thumb), alt: audition_request.person.stage_name, class: "w-10 h-10 rounded-lg object-cover mb-1 #{'opacity-40' if scheduled}", draggable: false %>
                     <% end %>
                     <span class="font-medium text-xs text-center <%= 'text-gray-300' if scheduled %>"><%= audition_request.person.stage_name.truncate(20, omission: '...') %></span>
                 </div>
