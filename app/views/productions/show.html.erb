@@ -16,7 +16,7 @@
   <div class="flex items-top justify-between ">
     <h1 class="font-bold text-2xl mb-2">Scheduled Shows</h1>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4 mb-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
     <% @production.shows.order(:date_and_time).each do |show| %>
       <%= link_to production_show_path(@production, show) do %>
         <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
@@ -34,8 +34,8 @@
       </div>
     <% end %>
   </div>
-  <div class="w-full">
-    <h1 class="font-bold text-2xl mb-2">Auditions</h1>
+  <div class="w-full mt-10">
+    <h1 class="font-bold text-2xl">Call to Audition</h1>
     <% if !@production.call_to_auditions.any? %>
       <div class="mb-5">
         You don&apos;t currently have any open Calls to Audition for this production.
@@ -45,10 +45,9 @@
   </div>
   <div class="w-full">
     <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4">
 
         <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-          <h2 class="font-bold text-lg col-span-1 mb-2">Call to Audition</h2>
           <p class="mb-2">
 
             <% if call_to_audition.timeline_status == :upcoming %>
@@ -116,15 +115,20 @@
           <%= render partial: "shared/link_button", locals: {text: "View all Audition Requests", path: production_call_to_audition_audition_requests_path(@production, call_to_audition)} %>
         </div>
 
+      </div>
+    </div>
+    <div class="w-full mt-10">
+      <h1 class="font-bold text-2xl mb-2">Auditions</h1>
+      <div class="grid grid-cols-1">
         <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-          <h2 class="font-bold text-lg col-span-1 mb-2">Audition Sessions</h2>
           <div class="grid grid-cols-1 gap-2 mb-4">
-
-            <% @production.audition_sessions.each do |session| %>
-              <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-                <p class="text-md col-span-2"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
-                <p class="font-bold text-2xl text-right"><%= "x/#{session.maximum_auditionees}" %></p>
-              </div>
+            <%= link_to production_audition_sessions_path(@production) do %>
+              <% @production.audition_sessions.each do |session| %>
+                <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
+                  <p class="text-md col-span-2"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
+                  <p class="font-bold text-2xl text-right"><%= "x/#{session.maximum_auditionees}" %></p>
+                </div>
+              <% end %>
             <% end %>
           </div>
           <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
