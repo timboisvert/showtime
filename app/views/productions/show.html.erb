@@ -35,7 +35,7 @@
     <% end %>
   </div>
   <div class="w-full mt-10">
-    <h1 class="font-bold text-2xl mb-2">Call to Audition</h1>
+    <h1 class="font-bold text-2xl">Call to Audition</h1>
     <% if !@production.call_to_auditions.any? %>
       <div class="mb-5">
         You don&apos;t currently have any open Calls to Audition for this production.
@@ -45,7 +45,7 @@
   </div>
   <div class="w-full">
     <% @production.call_to_auditions.order(:opens_at).each do |call_to_audition| %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4">
 
         <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <p class="mb-2">
@@ -119,42 +119,44 @@
     </div>
     <div class="w-full mt-10">
       <h1 class="font-bold text-2xl mb-2">Auditions</h1>
+      <div class="grid grid-cols-1">
         <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-1 gap-2 mb-4">
+            <%= link_to production_audition_sessions_path(@production) do %>
               <% @production.audition_sessions.each do |session| %>
-                <%= link_to production_audition_sessions_path(@production) do %>
-                  <div class="p-3 mb-2 grid grid-cols-1 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-                    <div class="flex flex-row items-center justify-between mb-2">
-                      <p class="text-md font-semibold"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
-                    </div>
-                    <% if session.auditions.any? %>
-                      <div class="grid grid-cols-4 lg:grid-cols-6 gap-1 w-full">
-                        <% session.auditions.each do |audition| %>
-                          <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-                            <%= image_tag audition.person.headshot.variant(:thumb), alt: audition.person.stage_name, class: "w-10 h-10 rounded-lg object-cover mb-1" if audition.person.headshot.present? %>
-                            <span class="font-medium text-xs text-center"><%= audition.person.stage_name.truncate(20, omission: '...') %></span>
-                          </div>
-                        <% end %>
-
-                        <% if (!session.is_full? && !session.is_overbooked?) %>
-                          <span class="inline-flex items-center text-xs text-gray-400 h-full text-center ml-2">
-                              <div class="flex flex-col items-center justify-center">
-                                  Add up to<br><%= session.maximum_auditionees - session.auditions.count %> more
-                              </div>
-                          </span>
-                        <% end %>
-
-                      </div>
-                    <% else %>
-                      <p class="text-gray-400 font-semibold text-xs">No auditions scheduled for this session.</p>
-                    <% end %>
+                <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+                  <div class="flex flex-row items-center justify-between mb-2">
+                    <p class="text-md font-semibold"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
                   </div>
-                <% end %>
+                  <% if session.auditions.any? %>
+                    <div class="grid grid-cols-8 lg:grid-cols-12 gap-1 w-full">
+                      <% session.auditions.each do |audition| %>
+                        <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+                          <%= image_tag audition.person.headshot.variant(:thumb), alt: audition.person.stage_name, class: "w-10 h-10 rounded-lg object-cover mb-1" if audition.person.headshot.present? %>
+                          <span class="font-medium text-xs text-center"><%= audition.person.stage_name.truncate(20, omission: '...') %></span>
+                        </div>
+                      <% end %>
+
+                      <% if (!session.is_full? && !session.is_overbooked?) %>
+                        <span class="inline-flex items-center text-xs text-gray-400 h-full text-center ml-2">
+                            <div class="flex flex-col items-center justify-center">
+                                Add up to<br><%= session.maximum_auditionees - session.auditions.count %> more
+                            </div>
+                        </span>
+                      <% end %>
+
+                    </div>
+                  <% else %>
+                    <p class="text-gray-400 font-semibold text-xs">No auditions scheduled for this session.</p>
+                  <% end %>
+                </div>
+              <% end %>
             <% end %>
           </div>
           <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
         </div>
 
+      </div>
     <% end %>
   </div>
 </div>

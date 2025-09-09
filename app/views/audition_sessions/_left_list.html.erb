@@ -6,23 +6,22 @@
         <%= link_to "To Be Scheduled",
                 production_audition_sessions_path(production, filter: "to_be_scheduled"),
                 data: { turbo_prefetch: false },
-                class: "px-3 py-1 rounded-md border text-xs #{(filter.blank? || filter == "to_be_scheduled") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
+                class: "px-3 py-1 rounded-md border text-sm #{(filter.blank? || filter == "to_be_scheduled") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
         %>
         <%= link_to "All Accepted",
                 production_audition_sessions_path(production, filter: "accepted"),
                 data: { turbo_prefetch: false },
-                class: "px-3 py-1 rounded-md border text-xs #{(filter == "accepted") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
+                class: "px-3 py-1 rounded-md border text-sm #{(filter == "accepted") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
         %>
         <%= link_to "All Requests",
                 production_audition_sessions_path(production, filter: "all"),
                 data: { turbo_prefetch: false },
-                class: "px-3 py-1 rounded-md border text-xs #{(filter == "all") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
+                class: "px-3 py-1 rounded-md border text-sm #{(filter == "all") ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-300'}"
         %>
     </div>
 
     <% if production.audition_requests(filter: filter || "to_be_scheduled").any? %>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-
             <% production.audition_requests(filter: filter || "to_be_scheduled").each do |audition_request| %>
 
                 <% scheduled = audition_request.scheduled_in_any?(production.audition_sessions) %>
@@ -37,7 +36,6 @@
                     <span class="font-medium text-xs text-center <%= 'text-gray-300' if scheduled %>"><%= audition_request.person.stage_name.truncate(20, omission: '...') %></span>
                 </div>
             <% end %>
-
         </div>
     <% else %>
         <% if filter == "to_be_scheduled" %>
