@@ -38,7 +38,11 @@ Rails.application.routes.draw do
       get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
     end
 
-    resources :auditions
+    resources :auditions do
+      collection do
+        post :add_to_session
+      end
+    end
     resources :cast_members
     resources :show_cast_assignments
     resources :cast_roles

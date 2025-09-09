@@ -16,23 +16,36 @@
     ]
   } %>
 
-  <div id="audition_sessions" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @audition_sessions.any? %>
-      <% @audition_sessions.each do |audition_session| %>
-        <div class="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
-          <div class="text-md col-span-2">
-            <p><%= audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
-            <div>
-              <%= link_to "Reschedule", edit_production_audition_session_path(@production, audition_session), class: "text-xs text-pink-500 underline" %>
-              <%= link_to "Duplicate", new_production_audition_session_path(@production, duplicate: audition_session), class: "ml-1 text-xs text-pink-500 underline" %>
-              <%= link_to "Cancel", production_audition_session_path(@production, audition_session), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this audition session?" }, class: "ml-1 text-xs text-pink-500 underline" %>
+  <div id="audition_sessions" class="min-w-full divide-y divide-gray-200 space-y-5" data-controller="drag">
+
+    <div class="grid grid-cols-5 gap-6">
+      <div class="col-span-2">
+        <%= render partial: "audition_sessions/left_list", locals: { production: @production, filter: (params[:filter] || session[:audition_request_filter] || "to_be_scheduled") } %>
+      </div>
+
+      <div class="col-span-3" id="audition_sessions">
+        <% if @audition_sessions.any? %>
+          <% @audition_sessions.each do |audition_session| %>
+            <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-3 items-center">
+                            <div class="text-md col-span-1 pr-10">
+                <p class="text-lg font-bold"><%= audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
+                <div class="border-b border-gray-200 pb-1 mb-2">
+                  <%= link_to "Reschedule", edit_production_audition_session_path(@production, audition_session), class: "text-xs text-pink-500 underline" %>
+                  <%= link_to "Duplicate", new_production_audition_session_path(@production, duplicate: audition_session), class: "ml-1 text-xs text-pink-500 underline" %>
+                  <%= link_to "Cancel", production_audition_session_path(@production, audition_session), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this audition session?" }, class: "ml-1 text-xs text-pink-500 underline" %>
+                </div>
+                <p class="font-bold text-2xl"><%= "#{audition_session.auditions.count}/#{audition_session.maximum_auditionees}" %></p>
+              </div>
+
+              <%= render partial: "audition_sessions/dropzone", locals: { audition_session: audition_session } %>
             </div>
-          </div>
-          <p class="font-bold text-2xl text-right"><%= "x/#{audition_session.maximum_auditionees}" %></p>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No audition sessions found.</p>
-    <% end %>
+          <% end %>
+        <% else %>
+          <p class="text-center my-10">No audition sessions found.</p>
+        <% end %>
+
+      </div>
+
+    </div>
   </div>
 </div>

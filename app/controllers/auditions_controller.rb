@@ -45,6 +45,26 @@ class AuditionsController < ApplicationController
     redirect_to auditions_path, notice: "Audition was successfully destroyed.", status: :see_other
   end
 
+
+
+  # POST /auditions/add_to_session
+  def add_to_session
+    audition_request = AuditionRequest.find(params[:audition_request_id])
+    audition_session = AuditionSession.find(params[:audition_session_id])
+
+    audition = Audition.create!(audition_request: audition_request, person: audition_request.person)
+    audition_session.auditions << audition unless audition_session.auditions.include?(audition)
+
+    # Re-render the left list and the dropzone partials
+    left_list_html = render_to_string(partial: "audition_sessions/left_list", locals: { production: audition_session.production, filter: cookies[:audition_request_filter] })
+    dropzone_html = render_to_string(partial: "audition_sessions/dropzone", locals: { audition_session: audition_session })
+
+    render json: { left_list_html: left_list_html, dropzone_html: dropzone_html }
+  end
+
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_audition

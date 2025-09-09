@@ -5,6 +5,12 @@ class AuditionSessionsController < ApplicationController
   # GET /audition_sessions
   def index
     @audition_sessions = @production.audition_sessions
+
+    if params[:filter].present?
+      cookies[:audition_request_filter] = params[:filter]
+    else
+      cookies[:audition_request_filter] ||= "to_be_scheduled"
+    end
   end
 
   # GET /audition_sessions/1
