@@ -1,21 +1,21 @@
 class ShowsController < ApplicationController
-  before_action :set_show, only: %i[ show edit update destroy ]
-  before_action :set_production
+  before_action :set_show, only: %i[ show edit update destroy assign_person_to_role ]
+  before_action :set_production, except: %i[ assign_person_to_role ]
 
-  # GET /shows/1
+  def index
+    @shows = @production.shows.all
+  end
+
   def show
   end
 
-  # GET /shows/new
   def new
-    @show = Show.new
+    @show = @production.shows.new
   end
 
-  # GET /shows/1/edit
   def edit
   end
 
-  # POST /shows
   def create
     @show = Show.new(show_params)
     @show.production = @production
@@ -27,7 +27,6 @@ class ShowsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /shows/1
   def update
     if @show.update(show_params)
       redirect_to production_shows_path(@production), notice: "Show was successfully updated.", status: :see_other
@@ -36,11 +35,22 @@ class ShowsController < ApplicationController
     end
   end
 
-  # DELETE /shows/1
   def destroy
     @show.destroy!
     redirect_to production_shows_path(@production), notice: "Show was successfully deleted.", status: :see_other
   end
+
+  def assign_person_to_role
+  person = Person.find(params[:person_id])
+  role = Role.find(params[:role_id])
+  assignment = @show.show_person_role_assignments.find_or_initialize_by(person: person, role: role)
+  assignment.save!
+  cast_members_html = render_to_string(partial: "shows/cast_members_list", locals: { show: @show })
+  roles_html = render_to_string(partial: "shows/roles_list", locals: { show: @show })
+  render json: { cast_members_html: cast_members_html, roles_html: roles_html }
+  end
+
+
 
   private
     def set_show

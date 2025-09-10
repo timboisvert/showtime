@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     post "/auditions/add_to_session", to: "auditions#add_to_session"
     post "/auditions/remove_from_session", to: "auditions#remove_from_session"
 
-      resources :show_cast_assignments
+    # Used for adding people and removing them from a cast
+    post "/shows/:id/assign_person_to_role", to: "shows#assign_person_to_role"
   end
 end

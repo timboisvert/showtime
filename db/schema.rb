@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_202107) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_212301) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -189,15 +189,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_202107) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "show_cast_assignments", force: :cascade do |t|
+  create_table "show_person_role_assignments", force: :cascade do |t|
     t.integer "show_id", null: false
     t.integer "person_id", null: false
-    t.integer "cast_role_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cast_role_id"], name: "index_show_cast_assignments_on_cast_role_id"
-    t.index ["person_id"], name: "index_show_cast_assignments_on_person_id"
-    t.index ["show_id"], name: "index_show_cast_assignments_on_show_id"
+    t.integer "role_id", null: false
+    t.index ["person_id"], name: "index_show_person_role_assignments_on_person_id"
+    t.index ["role_id"], name: "index_show_person_role_assignments_on_role_id"
+    t.index ["show_id"], name: "index_show_person_role_assignments_on_show_id"
   end
 
   create_table "shows", force: :cascade do |t|
@@ -234,8 +234,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_202107) do
   add_foreign_key "question_options", "questions"
   add_foreign_key "roles", "productions"
   add_foreign_key "sessions", "users"
-  add_foreign_key "show_cast_assignments", "people"
-  add_foreign_key "show_cast_assignments", "roles", column: "cast_role_id"
-  add_foreign_key "show_cast_assignments", "shows"
+  add_foreign_key "show_person_role_assignments", "people"
+  add_foreign_key "show_person_role_assignments", "roles"
+  add_foreign_key "show_person_role_assignments", "shows"
   add_foreign_key "shows", "productions"
 end

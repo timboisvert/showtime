@@ -1,6 +1,6 @@
 class CallToAuditionsController < ApplicationController
-  before_action :set_call_to_audition, only: %i[ edit update destroy preview ]
   before_action :set_production
+  before_action :set_call_to_audition, only: %i[ edit update destroy preview ]
 
   # Use the public facing layout on the preview
   layout "public_facing", only: [ :preview ]
@@ -58,15 +58,14 @@ class CallToAuditionsController < ApplicationController
   end
 
   private
+   def set_production
+      @production = Production.find(params.expect(:production_id))
+    end
+
     def set_call_to_audition
       @call_to_audition = CallToAudition.find(params.expect(:id))
     end
 
-    def set_production
-      @production = Production.find(params.expect(:production_id))
-    end
-
-    # Only allow a list of trusted parameters through.
     def call_to_audition_params
       params.expect(call_to_audition: [ :production_id, :opens_at, :closes_at, :header_text, :success_text, :hex_code ])
     end

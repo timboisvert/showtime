@@ -1,0 +1,18 @@
+<%# Only the cast members list for AJAX update %>
+<% show.production.casts.each do |cast| %>
+  <% cast.people.each do |person| %>
+    <div class="flex items-center gap-2 mb-2 p-2 bg-gray-50 rounded shadow cursor-move"
+         data-drag-cast-member-target="person"
+         data-person-id="<%= person.id %>"
+         draggable="true">
+      <% if person.headshot.attached? %>
+        <%= image_tag person.headshot.variant(:thumb), alt: person.stage_name, class: "w-8 h-8 rounded object-cover" %>
+      <% else %>
+        <div class="w-8 h-8 rounded bg-gray-300 flex items-center justify-center text-white font-bold">
+          <%= person.initials %>
+        </div>
+      <% end %>
+      <span><%= person.stage_name %></span>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,20 @@
+<%# Only the roles list for AJAX update %>
+<% show.production.roles.each do |role| %>
+  <div class="mb-3 p-3 bg-white border rounded shadow min-h-[60px] flex flex-col justify-between"
+       data-drop-role-target="role"
+       data-role-id="<%= role.id %>"
+       data-action="drop->drop-role#assign dragover->drop-role#allowDrop">
+    <div class="font-semibold"><%= role.name %></div>
+    <div class="text-xs text-gray-500 mt-1">
+      Assigned:
+      <% assignments = show.show_person_role_assignments.where(role: role) %>
+      <% if assignments.any? %>
+        <% assignments.each do |assignment| %>
+          <span class="inline-block bg-pink-100 text-pink-700 rounded px-2 py-1 mr-1"><%= assignment.person.stage_name %></span>
+        <% end %>
+      <% else %>
+        <span class="text-gray-400">(none)</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
