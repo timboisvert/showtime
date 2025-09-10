@@ -1,4 +1,5 @@
 class AuditionsController < ApplicationController
+  before_action :set_production, except: %i[ add_to_session remove_from_session ]
   before_action :set_audition, only: %i[ show edit update destroy ]
 
   # GET /auditions
@@ -75,9 +76,12 @@ class AuditionsController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+   def set_production
+      @production = Production.find(params.expect(:production_id))
+    end
+
     def set_audition
-      @audition = Audition.find(params.expect(:id))
+      @audition = @production.auditions.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

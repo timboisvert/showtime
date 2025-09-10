@@ -1,4 +1,5 @@
 <% content_for :title, @production.name %>
+
 <div class="w-full mb-10">
   <%= render partial: "shared/notice", locals: { notice: notice } %>
   <%= render partial: "shared/top_menu", locals: {
@@ -12,42 +13,6 @@
   } %>
   <div class="mb-5">
     <%= @production.description %>
-  </div>
-
-  <div class="flex items-top justify-between ">
-    <h1 class="font-bold text-2xl mb-2">Casting (Temp location)</h1>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
-    <% @production.casts.each do |cast| %>
-      <%= link_to production_casts_path(@production) do %>
-        <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-          <p class="font-bold text-md"><%= cast.name %></p>
-        </div>
-      <% end %>
-    <% end %>
-    <%= link_to "+ Add a Cast", new_production_cast_path(@production) %>
-  </div>
-
-  <div class="flex items-top justify-between mt-10">
-    <h1 class="font-bold text-2xl mb-2">Scheduled Shows</h1>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
-    <% @production.shows.order(:date_and_time).each do |show| %>
-      <%= link_to production_show_path(@production, show) do %>
-        <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
-          <p class="font-bold text-md"><%= show.date_and_time.strftime("%A, %B %-d, %Y") %></p>
-          <p class="font-bold text-md mt-1"><%= show.date_and_time.strftime("%l:%M %p") %></p>
-          <% if show.secondary_name.present? %>
-            <p class="font-bold text-2xl"><%= show.secondary_name %></p>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-    <%= link_to new_production_show_path(@production) do %>
-      <div class="flex min-h-24 bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg items-center">
-        <p class="text-center text-sm text-white w-full">+ Schedule a Show</p>
-      </div>
-    <% end %>
   </div>
 
   <div class="w-full mt-10">

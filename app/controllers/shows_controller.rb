@@ -21,7 +21,7 @@ class ShowsController < ApplicationController
     @show.production = @production
 
     if @show.save
-      redirect_to @production, notice: "Show was successfully created."
+      redirect_to production_shows_path(@production), notice: "Show was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,7 +30,7 @@ class ShowsController < ApplicationController
   # PATCH/PUT /shows/1
   def update
     if @show.update(show_params)
-      redirect_to @production, notice: "Show was successfully updated.", status: :see_other
+      redirect_to production_shows_path(@production), notice: "Show was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class ShowsController < ApplicationController
   # DELETE /shows/1
   def destroy
     @show.destroy!
-    redirect_to @production, notice: "Show was successfully deleted.", status: :see_other
+    redirect_to production_shows_path(@production), notice: "Show was successfully deleted.", status: :see_other
   end
 
   private

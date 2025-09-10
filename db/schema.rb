@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_161521) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_202107) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -109,14 +109,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_161521) do
     t.index ["production_id"], name: "index_call_to_auditions_on_production_id"
   end
 
-  create_table "cast_roles", force: :cascade do |t|
-    t.integer "cast_id", null: false
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cast_id"], name: "index_cast_roles_on_cast_id"
-  end
-
   create_table "casts", force: :cascade do |t|
     t.integer "production_id", null: false
     t.string "name"
@@ -180,6 +172,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_161521) do
     t.index ["questionable_type", "questionable_id"], name: "index_questions_on_questionable"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "production_id", null: false
+    t.index ["production_id"], name: "index_roles_on_production_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -229,13 +229,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_161521) do
   add_foreign_key "auditions", "audition_requests"
   add_foreign_key "auditions", "people"
   add_foreign_key "call_to_auditions", "productions"
-  add_foreign_key "cast_roles", "casts"
   add_foreign_key "casts", "productions"
   add_foreign_key "productions", "production_companies"
   add_foreign_key "question_options", "questions"
+  add_foreign_key "roles", "productions"
   add_foreign_key "sessions", "users"
-  add_foreign_key "show_cast_assignments", "cast_roles"
   add_foreign_key "show_cast_assignments", "people"
+  add_foreign_key "show_cast_assignments", "roles", column: "cast_role_id"
   add_foreign_key "show_cast_assignments", "shows"
   add_foreign_key "shows", "productions"
 end

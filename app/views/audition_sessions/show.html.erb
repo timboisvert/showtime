@@ -8,10 +8,10 @@
 
     <%= render partial: "shared/top_menu", locals: {
         breadcrumbs: [
-          ["Productions", productions_path],
-          [@production.name, production_path(@production)]
+          ["Auditions", production_auditions_path(@production)],
+          ["Audition Sessions", production_audition_sessions_path(@production)]
         ],
-        text: "Audition Sessions",
+        text: "#{@audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p")}",
         links: [
           {
             text: "Manage Audition Sessions",
@@ -29,9 +29,9 @@
 
     <%= render partial: "shared/top_menu", locals: {
         breadcrumbs: [
-          ["Productions", productions_path],
-          [@production.name, production_path(@production)],
-          ["Audition Sessions", production_audition_sessions_path(@production)]
+          ["Auditions", production_auditions_path(@production)],
+          ["Audition Sessions", production_audition_sessions_path(@production)],
+          ["#{@audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p")}", production_audition_session_path(@production, @audition_session)]
         ],
         text: "#{@person.stage_name}",
         links: [

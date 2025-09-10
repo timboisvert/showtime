@@ -38,6 +38,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :roles
+
       resources :call_to_auditions do
         resources :questions
         resources :audition_requests
@@ -49,16 +51,14 @@ Rails.application.routes.draw do
       resources :audition_sessions do
         get "/auditions/:id", to: "audition_sessions#show", as: "audition"
       end
+
+      resources :auditions
     end
 
-    resources :auditions do
-      collection do
-        post :add_to_session
-        post :remove_from_session
-      end
-    end
+    # Used for adding people and removing them from an audition session
+    post "/auditions/add_to_session", to: "auditions#add_to_session"
+    post "/auditions/remove_from_session", to: "auditions#remove_from_session"
 
-    resources :show_cast_assignments
-    resources :cast_roles
+      resources :show_cast_assignments
   end
 end

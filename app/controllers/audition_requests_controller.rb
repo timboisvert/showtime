@@ -1,6 +1,6 @@
 class AuditionRequestsController < ApplicationController
-  before_action :set_audition_request, only: %i[ show edit update destroy set_status ]
   before_action :set_production
+  before_action :set_audition_request, only: %i[ show edit update destroy set_status ]
   before_action :set_call_to_audition
 
   def index
@@ -68,12 +68,12 @@ class AuditionRequestsController < ApplicationController
   end
 
   private
-    def set_audition_request
-      @audition_request = AuditionRequest.find(params.expect(:id))
-    end
-
     def set_production
       @production = Production.find(params.expect(:production_id))
+    end
+
+    def set_audition_request
+      @audition_request = @production.audition_requests.find(params.expect(:id))
     end
 
     def set_call_to_audition

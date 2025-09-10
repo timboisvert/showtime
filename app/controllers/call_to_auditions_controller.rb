@@ -38,7 +38,7 @@ class CallToAuditionsController < ApplicationController
   # PATCH/PUT /call_to_auditions/1
   def update
     if @call_to_audition.update(call_to_audition_params)
-      redirect_to @production, notice: "Call to Audition was successfully updated.", status: :see_other
+      redirect_to production_auditions_path(@production), notice: "Call to Audition was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end

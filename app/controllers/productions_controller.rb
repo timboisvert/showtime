@@ -8,6 +8,7 @@ class ProductionsController < ApplicationController
 
   # GET /productions/1
   def show
+    session[:production] = @production.id
   end
 
   # GET /productions/new

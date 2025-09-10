@@ -8,6 +8,16 @@
 
     <div>
       <%= link_to "Productions", productions_path, class: "flex items-center gap-3 px-5 py-2 hover:bg-pink-500 hover:text-white transition-all font-medium" %>
+
+      <% if @production.present? %>
+        <div> <%= @production.name %> </div>
+        <%= link_to "Shows", production_shows_path(@production), class: "block px-5 py-2 hover:bg-pink-100 hover:text-pink-700 transition-all text-sm" %>
+        <%= link_to "Casting", production_casts_path(@production), class: "block px-5 py-2 hover:bg-pink-100 hover:text-pink-700 transition-all text-sm" %>
+        <%= link_to "Roles", production_roles_path(@production), class: "block px-5 py-2 hover:bg-pink-100 hover:text-pink-700 transition-all text-sm" %>
+        <%= link_to "Auditions", production_auditions_path(@production), class: "block px-5 py-2 hover:bg-pink-100 hover:text-pink-700 transition-all text-sm" %>
+      <% end %>
+
+
       <%= link_to "People", people_path, class: "flex items-center gap-3 px-5 py-2 hover:bg-pink-500 hover:text-white transition-all font-medium" %>
     </div>
 
@@ -23,7 +33,9 @@
     <div class="px-4 py-6 border-t-4 border-pink-400 text-xs text-gray-500">
       <% if Current.user %>
         <div class="font-semibold text-gray-700 truncate"><%= Current.user.email_address %></div>
-        <div class="truncate">Production Company: <span class="font-medium text-gray-700">(not set)</span></div>
+        <% if @production %>
+          <div class="font-medium text-gray-700"><%= @production.name %></div>
+        <% end %>
       <% else %>
         <div class="italic">Not signed in</div>
       <% end %>

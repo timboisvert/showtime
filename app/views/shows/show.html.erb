@@ -1,30 +1,13 @@
-<% content_for :title, "Showing show" %>
+<% content_for :title, "Show: #{@show.date_and_time.strftime("%A, %B %-d, %Y")}" %>
 
-<div class="w-full">
-
+<div class="w-full mb-10">
   <%= render partial: "shared/notice", locals: { notice: notice } %>
-
   <%= render partial: "shared/top_menu", locals: {
     breadcrumbs: [
-      ["Productions", productions_path],
-      [@production.name, production_path(@production)]
+       ["Shows", production_shows_path(@production)]
     ],
-    text: "Scheduled Show",
+    text: @show.date_and_time.strftime("%A, %B %-d, %Y"),
     links: []
   } %>
 
-  <div id="<%= dom_id @show %>" class="w-full sm:w-auto my-5 space-y-5">
-    <div>
-      <strong class="block font-medium mb-1">Date and time:</strong>
-      <%= @show.date_and_time %>
-    </div>
-    <div>
-      <strong class="block font-medium mb-1">Secondary name:</strong>
-      <%= @show.secondary_name %>
-    </div>
-  </div>
-
-
-  <%= link_to "Edit", edit_production_show_path(@production, @show), class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= button_to "Delete", [@production, @show], method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-lg px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
 </div>

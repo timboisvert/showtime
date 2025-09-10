@@ -4,11 +4,9 @@
   <%= render partial: "shared/notice", locals: { notice: notice } %>
   <%= render partial: "shared/top_menu", locals: {
     breadcrumbs: [
-      ["Productions", productions_path],
-      [@production.name, production_path(@production)],
       ["Casting", production_casts_path(@production)]
     ],
-    text: "Create a Cast",
+    text: "Add a Cast",
     links: []
   } %>
 
@@ -25,7 +23,7 @@
     </div>
 
     <div class="w-full border-t border-gray-200 pt-5 my-5">
-      <%= form.submit "Create Cast", class: "sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800inline-block font-medium cursor-pointer inline-block" %>
+      <%= form.submit "Add Cast", class: "sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800inline-block font-medium cursor-pointer inline-block" %>
       <%= link_to "Back", 'javascript:history.back()', class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
     </div>
 

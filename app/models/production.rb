@@ -3,6 +3,7 @@ class Production < ApplicationRecord
     has_many :call_to_auditions, dependent: :destroy
     has_many :audition_sessions, dependent: :destroy
     has_many :casts, dependent: :destroy
+    has_many :roles, dependent: :destroy
     belongs_to :production_company
 
     def audition_requests(filter: "to_be_scheduled")
