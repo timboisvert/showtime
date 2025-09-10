@@ -10,10 +10,25 @@
       { text: "Edit", path: edit_production_path(@production) }
     ]
   } %>
-  <div class="mb-10">
+  <div class="mb-5">
     <%= @production.description %>
   </div>
+
   <div class="flex items-top justify-between ">
+    <h1 class="font-bold text-2xl mb-2">Casting (Temp location)</h1>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
+    <% @production.casts.each do |cast| %>
+      <%= link_to production_casts_path(@production) do %>
+        <div class="p-4 min-h-24 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
+          <p class="font-bold text-md"><%= cast.name %></p>
+        </div>
+      <% end %>
+    <% end %>
+    <%= link_to "+ Add a Cast", new_production_cast_path(@production) %>
+  </div>
+
+  <div class="flex items-top justify-between mt-10">
     <h1 class="font-bold text-2xl mb-2">Scheduled Shows</h1>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-2 lg:gap-4">
@@ -34,6 +49,7 @@
       </div>
     <% end %>
   </div>
+
   <div class="w-full mt-10">
     <h1 class="font-bold text-2xl">Call to Audition</h1>
     <% if !@production.call_to_auditions.any? %>

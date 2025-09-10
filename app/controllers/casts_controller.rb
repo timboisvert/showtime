@@ -1,39 +1,35 @@
 class CastsController < ApplicationController
+  before_action :set_production
   before_action :set_cast, only: %i[ show edit update destroy ]
 
-  # GET /casts
   def index
-    @casts = Cast.all
+    @casts = @production.casts.all
   end
 
-  # GET /casts/1
   def show
   end
 
-  # GET /casts/new
   def new
-    @cast = Cast.new
+    @cast = @production.casts.new
   end
 
-  # GET /casts/1/edit
   def edit
   end
 
-  # POST /casts
   def create
-    @cast = Cast.new(cast_params)
+    @cast = @production.casts.new(cast_params)
+    @cast.production = @production
 
     if @cast.save
-      redirect_to @cast, notice: "Cast was successfully created."
+      redirect_to production_casts_path(@production), notice: "Cast was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /casts/1
   def update
     if @cast.update(cast_params)
-      redirect_to @cast, notice: "Cast was successfully updated.", status: :see_other
+      redirect_to production_casts_path(@production), notice: "Cast was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,17 +38,19 @@ class CastsController < ApplicationController
   # DELETE /casts/1
   def destroy
     @cast.destroy!
-    redirect_to casts_path, notice: "Cast was successfully destroyed.", status: :see_other
+    redirect_to production_casts_path(@production), notice: "Cast was successfully deleted.", status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cast
-      @cast = Cast.find(params.expect(:id))
+    def set_production
+      @production = Production.find(params.require(:production_id))
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_cast
+      @cast = @production.casts.find(params.require(:id))
+    end
+
     def cast_params
-      params.expect(cast: [ :production_id, :name ])
+      params.require(:cast).permit(:production_id, :name)
     end
 end

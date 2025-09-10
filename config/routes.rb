@@ -25,17 +25,20 @@ Rails.application.routes.draw do
     resources :people
     resources :productions do
       resources :shows
+
+      resources :casts do
+        resources :cast_members
+      end
+
       resources :call_to_auditions do
         resources :questions
         resources :audition_requests
         # Set status on audition requests
         post "audition_requests/:id/set_status/:status", to: "audition_requests#set_status", as: "audition_request_set_status"
       end
-      resources :audition_sessions
-
-
-      # Addition Call To Audition routes
       get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
+
+      resources :audition_sessions
     end
 
     resources :auditions do
@@ -44,9 +47,8 @@ Rails.application.routes.draw do
         post :remove_from_session
       end
     end
-    resources :cast_members
+
     resources :show_cast_assignments
     resources :cast_roles
-    resources :casts
   end
 end
