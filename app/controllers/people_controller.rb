@@ -1,27 +1,20 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[ show edit update destroy ]
 
-  allow_unauthenticated_access only: %i[ lookup ]
-
-  # GET /people
   def index
     @people = Person.all
   end
 
-  # GET /people/1
   def show
   end
 
-  # GET /people/new
   def new
     @person = Person.new
   end
 
-  # GET /people/1/edit
   def edit
   end
 
-  # POST /people
   def create
     @person = Person.new(person_params)
 
@@ -32,7 +25,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  # PATCH/PUT /people/1
   def update
     if @person.update(person_params)
       redirect_to @person, notice: "Person was successfully updated.", status: :see_other
@@ -41,17 +33,23 @@ class PeopleController < ApplicationController
     end
   end
 
-  # DELETE /people/1
   def destroy
     @person.destroy!
     redirect_to people_path, notice: "Person was successfully destroyed.", status: :see_other
   end
 
-  # GET /users/lookup.json?email=foo@example.com
-  def lookup
-    email = params[:email].to_s.strip.downcase
-    exists = Person.exists?(email: email)
-    render json: { exists: exists }
+  # GET /people?q=searchterm
+  def search
+    q = params[:q].to_s.strip
+    @people = if q.present?
+      Person.where("stage_name LIKE :q OR email LIKE :q", q: "%#{q}%")
+    else
+      Person.none
+    end
+    result_partial = params[:result_partial].presence || "people/person_grid_item"
+    result_locals = params[:result_locals] || {}
+
+    render partial: "shared/people_search_results", locals: { people: @people, result_partial: result_partial, result_locals: result_locals }
   end
 
   private

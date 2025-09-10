@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_09_161115) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_161521) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -109,15 +109,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_161115) do
     t.index ["production_id"], name: "index_call_to_auditions_on_production_id"
   end
 
-  create_table "cast_members", force: :cascade do |t|
-    t.integer "cast_id", null: false
-    t.integer "person_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cast_id"], name: "index_cast_members_on_cast_id"
-    t.index ["person_id"], name: "index_cast_members_on_person_id"
-  end
-
   create_table "cast_roles", force: :cascade do |t|
     t.integer "cast_id", null: false
     t.string "name"
@@ -132,6 +123,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_161115) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["production_id"], name: "index_casts_on_production_id"
+  end
+
+  create_table "casts_people", id: false, force: :cascade do |t|
+    t.integer "cast_id"
+    t.integer "person_id"
+    t.index ["cast_id"], name: "index_casts_people_on_cast_id"
+    t.index ["person_id"], name: "index_casts_people_on_person_id"
   end
 
   create_table "notify_mes", force: :cascade do |t|
@@ -231,8 +229,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_161115) do
   add_foreign_key "auditions", "audition_requests"
   add_foreign_key "auditions", "people"
   add_foreign_key "call_to_auditions", "productions"
-  add_foreign_key "cast_members", "casts"
-  add_foreign_key "cast_members", "people"
   add_foreign_key "cast_roles", "casts"
   add_foreign_key "casts", "productions"
   add_foreign_key "productions", "production_companies"

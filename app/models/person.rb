@@ -1,6 +1,6 @@
 class Person < ApplicationRecord
   has_many :audition_requests, dependent: :destroy
-
+  has_and_belongs_to_many :casts
   has_one_attached :resume, dependent: :purge_later
 
   has_one_attached :headshot, dependent: :purge_later do |attachable|

@@ -1,0 +1,10 @@
+<%# Renders the list of people in a cast, for AJAX refresh %>
+<% if cast.people.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+    <% cast.people.each do |cast_member| %>
+      <div class="bg-white rounded shadow p-4 flex flex-col items-center">
+        <span class="font-semibold"><%= cast_member.stage_name %></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

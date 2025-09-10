@@ -17,17 +17,27 @@
   <div id="casts" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @casts.any? %>
       <% @casts.each do |cast| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+        <div class="grid grid-cols-1 gap-1">
+
+            <div class="flex items-center justify-between">
+              <h1 class="font-bold text-2xl"><%= cast.name %></h1>
+              <%= link_to "Edit", edit_production_cast_path(@production, cast), class: "inline-block px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600 text-sm transition" %>
+            </div>
+
+          <div class="p-4 pb-6 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
 
 
-          <%= cast.name %>
-          <br>
-          Todo: Show the members of the cast
+            <div id="cast-members-list-<%= cast.id %>">
+              <%= render 'casts/cast_members_list', cast: cast %>
+            </div>
 
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Edit", edit_production_cast_path(@production, cast), class: "w-full sm:w-auto text-center rounded-lg px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Delete", production_cast_path(@production, cast), method: :delete, class: "w-full sm:w-auto rounded-lg px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+            <div>
+              <h1 class="font-bold text-lg mb-1">Add a person to this cast:</h1>
+              <%= render 'shared/people_search', url: search_people_path(format: :html), result_partial: 'casts/cast_person_grid_item', result_locals: { cast_id: cast.id } %>
+            </div>
+
           </div>
+
         </div>
       <% end %>
     <% else %>

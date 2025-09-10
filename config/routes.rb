@@ -22,12 +22,19 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index", as: "dashboard"
 
     resources :production_companies
-    resources :people
+    resources :people do
+      collection do
+        get :search
+      end
+    end
+
     resources :productions do
       resources :shows
 
       resources :casts do
-        resources :cast_members
+        member do
+          post :add_person
+        end
       end
 
       resources :call_to_auditions do
