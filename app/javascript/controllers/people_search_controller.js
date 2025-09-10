@@ -8,6 +8,12 @@ export default class extends Controller {
         this.timeout = null;
     }
 
+    reset() {
+        this.inputTarget.value = "";
+        this.resultsTarget.innerHTML = "";
+        this.inputTarget.focus();
+    }
+
     search() {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
