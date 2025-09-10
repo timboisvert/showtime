@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       get "call_to_auditions/:id/preview", to: "call_to_auditions#preview", as: "call_to_audition_preview"
 
       resources :audition_sessions do
-        get "/auditions/:id", to: "audition_sessions#show"
+        get "/auditions/:id", to: "audition_sessions#show", as: "audition"
       end
     end
 
