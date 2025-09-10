@@ -26,7 +26,7 @@
       <div class="col-span-3 id="audition_sessions">
         <% if @audition_sessions.any? %>
           <% @audition_sessions.each do |audition_session| %>
-            <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-4">
+            <div class="p-3 mb-1 border border-gray-200 rounded-lg hover:border-gray-400 transition-all grid grid-cols-4">
               <div class="text-md col-span-1 pr-10">
                 <p class="text-lg font-bold"><%= audition_session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
                 <div class="">
@@ -44,7 +44,7 @@
             </div>
           <% end %>
         <% else %>
-          <p class="text-center my-10">No audition sessions found.</p>
+          <p class="text-center text-sm my-10">No audition sessions found. <%= link_to "+ Schedule an Audition Session", new_production_audition_session_path(@production), class: "text-pink-500 underline" %></p>
         <% end %>
 
       </div>

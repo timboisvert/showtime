@@ -84,9 +84,8 @@
 <div class="fixed bottom-0 left-0 h-21 w-full bg-white text-pink-500 p-2 border-t-4 border-pink-400 pl-56">
 
   <div class="flex justify-center">
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-1 w-auto">
       <% @audition_session.auditions.each do |audition| %>
-        <%= link_to production_audition_session_audition_path(@production, @audition_session, audition), class: "flex flex-col items-center rounded-lg border border-gray-200 hover:bg-gray-100 p-3" do %>
+        <%= link_to production_audition_session_audition_path(@production, @audition_session, audition), class: "flex flex-col items-center rounded-lg border border-gray-200 hover:bg-gray-100 p-3 mr-1" do %>
           <% if audition.person.headshot.present? %>
             <%= image_tag audition.person.headshot.variant(:thumb), alt: audition.person.stage_name, class: "w-10 h-10 rounded-lg object-cover" %>
           <% else %>
@@ -96,7 +95,6 @@
           <% end %>
         <% end %>
       <% end %>
-    </div>
   </div>
 
 
