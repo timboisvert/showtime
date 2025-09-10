@@ -47,6 +47,13 @@ class CastsController < ApplicationController
     render partial: "casts/cast_members_list", locals: { cast: @cast }
   end
 
+  def remove_person
+    @cast = @production.casts.find(params[:id])
+    person = Person.find(params[:person_id])
+    @cast.people.delete(person)
+    render partial: "casts/cast_members_list", locals: { cast: @cast }
+  end
+
 
   private
     def set_production
