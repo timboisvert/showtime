@@ -1,0 +1,24 @@
+<% content_for :title, "Schedule an Audition Session" %>
+
+<div class="w-full">
+  <%= render partial: "shared/notice", locals: { notice: notice } %>
+  <%= render partial: "shared/top_menu", locals: {
+    breadcrumbs: [
+      ["Productions", productions_path],
+      [@production.name, production_path(@production)]
+    ],
+    text: "Audition Sessions",
+    links: [
+      {
+        text: "Manage Audition Sessions",
+        path: production_audition_sessions_path(@production)
+      }
+    ]
+  } %>
+
+  <div id="audition_sessions" class="min-w-full divide-y divide-gray-200 space-y-5" data-controller="drag">
+
+    Todo: Something like the audition requests "show" with links to each person on the bottom
+
+  </div>
+</div>

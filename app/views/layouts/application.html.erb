@@ -22,12 +22,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="inter-regular text-slate-700 bg-[#f9f9f7]">
+  <body class="inter-regular text-slate-700 bg-white">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
 
-    <%#= render "shared/nav" %>
+      <%= render "shared/sidebar" %>
 
-    <main class="w-screen mx-auto px-5 md:mt-20 md:flex grow">
-      <%= yield %>
-    </main>
+      <main class="flex-1 px-5 mt-5 ml-56">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

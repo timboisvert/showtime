@@ -1,11 +1,11 @@
-<div class="flex items-top justify-between mb-5 border-b-1 border-gray-200 pb-3">
+<div class="flex items-top justify-between mb-5 border-b-1 border-gray-200 pb-3 coustard-regular">
 
-  <div>
+  <div class="pt-1">
     <% breadcrumbs.each do |name, path| %>
-      <%= link_to name, path, class:"font-bold text-xl mb-1 mr-2 text-pink-500 hover:text-pink-600 underline" %>
+      <%= link_to name, path, class:"text-xl mb-1 mr-2 text-pink-500 hover:text-pink-600 underline" %>
       <span class="text-xl font-medium text-gray-500"> / &nbsp;</span>
     <% end %>
-    <span class="font-bold text-xl text-mb-1 mr-2"><%= text %></span>
+    <span class="text-xl text-mb-1 mr-2"><%= text %></span>
   </div>
   <% if links.count > 0 %>
     <div>

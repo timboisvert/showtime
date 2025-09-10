@@ -3,10 +3,6 @@ class AuditionRequestsController < ApplicationController
   before_action :set_production
   before_action :set_call_to_audition
 
-  # Use the wide layout for the show page so we can maximize real estate
-  layout "wide", only: %i[ show ]
-
-
   def index
     if params[:status].present?
       @audition_requests = AuditionRequest.where(status: params[:status]).order(:created_at)

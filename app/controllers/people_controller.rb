@@ -3,10 +3,6 @@ class PeopleController < ApplicationController
 
   allow_unauthenticated_access only: %i[ lookup ]
 
-  # Use the wide layout for the show page so we can maximize real estate
-  layout "wide", only: %i[ show ]
-
-
   # GET /people
   def index
     @people = Person.all

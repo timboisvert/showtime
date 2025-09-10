@@ -122,8 +122,8 @@
       <div class="grid grid-cols-1">
         <div class="p-4 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
           <div class="grid grid-cols-1 gap-2 mb-4">
-            <%= link_to production_audition_sessions_path(@production) do %>
-              <% @production.audition_sessions.each do |session| %>
+            <% @production.audition_sessions.each do |session| %>
+              <%= link_to production_audition_session_path(@production, session) do %>
                 <div class="p-3 mb-2 border border-gray-200 rounded-lg hover:border-gray-400 transition-all">
                   <div class="flex flex-row items-center justify-between mb-2">
                     <p class="text-md font-semibold"><%= session.start_at.strftime("%-m/%-d/%Y at %-l:%M %p") %></p>
@@ -153,6 +153,7 @@
               <% end %>
             <% end %>
           </div>
+          <%= render partial: "shared/link_button", locals: {text: "Manage Audition Sessions", path: production_audition_sessions_path(@production)} %>
           <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
         </div>
 
