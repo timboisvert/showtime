@@ -1,0 +1,73 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "50a9a59a136f9b482604d03292340ea5924179f181aa37a70500d95eda32a66e",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/auditions/show.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => Production.find(params.expect(:production_id)).auditions.find(params.expect(:id)), { :locals => ({ :production => Production.find(params.expect(:production_id)).auditions.find(params.expect(:id)) }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AuditionsController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/auditions_controller.rb",
+          "rendered": {
+            "name": "auditions/show",
+            "file": "app/views/auditions/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "auditions/show"
+      },
+      "user_input": "params.expect(:id)",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "d70ffab181e76c25fee7323050ba06754a65ffed729abce009709cdcbed41742",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/shared/_people_search_results.html.erb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => (params[:result_partial] or \"people/person_grid_item\"), { :locals => (params[:result_locals] or {}).merge(:person => person) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "PeopleController",
+          "method": "search",
+          "line": 52,
+          "file": "app/controllers/people_controller.rb",
+          "rendered": {
+            "name": "shared/_people_search_results",
+            "file": "app/views/shared/_people_search_results.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "shared/_people_search_results"
+      },
+      "user_input": "params[:result_partial]",
+      "confidence": "High",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    }
+  ],
+  "brakeman_version": "7.1.0"
+}
