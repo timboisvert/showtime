@@ -73,7 +73,7 @@ class AuditionRequestsController < ApplicationController
     end
 
     def set_audition_request
-      @audition_request = @production.audition_requests.find(params.expect(:id))
+      @audition_request = @production.audition_requests(filter: "all").find(params.expect(:id))
     end
 
     def set_call_to_audition
