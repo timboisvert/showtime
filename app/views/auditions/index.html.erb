@@ -131,11 +131,19 @@
             </div>
           <% end %>
 
-          <% if @production.audition_sessions.any? %>
-            <%= render partial: "shared/link_button", locals: {text: "Manage Audition Sessions", path: production_audition_sessions_path(@production)} %>
-          <% end %>
+          <div class="flex justify-between space-x-2">
+            <div>
+              <% if @production.audition_sessions.any? %>
+                <%= render partial: "shared/link_button", locals: {text: "Manage Audition Sessions", path: production_audition_sessions_path(@production)} %>
+              <% end %>
 
-          <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
+              <%= render partial: "shared/link_button", locals: {text: "+ Schedule an Audition Session", path: new_production_audition_session_path(@production)} %>
+            </div>
+            <div>
+              <%= render partial: "shared/link_button", locals: {text: "Audition Session Summary", path: production_audition_session_summary_path(@production)} %>
+            </div>
+          </div>
+
         </div>
 
       </div>

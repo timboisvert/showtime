@@ -58,6 +58,10 @@ class AuditionSessionsController < ApplicationController
     redirect_to production_audition_sessions_path(@production), notice: "Audition session was successfully canceled.", status: :see_other
   end
 
+  def summary
+    @audition_sessions = @production.audition_sessions
+  end
+
   private
     def set_production
       @production = Production.find(params.expect(:production_id))
